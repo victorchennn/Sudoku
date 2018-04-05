@@ -30,12 +30,11 @@ public class UnitTest {
                 {5,3,4,6,7,8,9,1,2},
         };
         Model m = new Model(9);
-        for (int r = 0; r < 9; r++) {
-            for (int c = 0; c < 9; c++) {
+        for (int r = 0; r < m.size(); r++) {
+            for (int c = 0; c < m.size(); c++) {
                 m.addTile(Tile.create(ex[r][c], c, r));
             }
         }
-
         System.out.println(m);
     }
 

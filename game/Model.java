@@ -34,11 +34,16 @@ public class Model extends Observable{
     }
 
     /** Delete TILE at (COL, ROW) from the board. There must be a Tile
-     * currently at that same position. */
+     * currently at that position. */
     void deleteTile(int col, int row) {
         assert _board[col][row] != null;
         _board[col][row] = null;
         setChanged();
+    }
+
+    /** Delete TILE tile. */
+    void deleteTile(Tile tile) {
+        deleteTile(tile.col(), tile.row());
     }
 
     /** Generate a new random sudoku board with full values. */
@@ -95,7 +100,7 @@ public class Model extends Observable{
     public String toString() {
         Formatter out = new Formatter();
         for (int row = size() - 1; row >= 0; row -= 1) {
-            out.format("%d", row + 1);
+            out.format("%d", row);
             for (int col = 0; col < size(); col += 1) {
                 if (col % 3 == 0) {
                     if (tile(col, row) == null) {
@@ -115,11 +120,11 @@ public class Model extends Observable{
         }
         for (int col = 0; col < 9; col++) {
             if (col == 0) {
-                out.format(" %4d", col + 1);
+                out.format(" %4d", col);
             } else if (col % 3 == 0) {
-                out.format(" %3d", col + 1);
+                out.format(" %3d", col);
             } else {
-                out.format(" %2d", col + 1);
+                out.format(" %2d", col);
             }
         }
         out.format("%n  Game is Over? %s", gameOver());
