@@ -87,6 +87,7 @@ public class Model extends Observable{
     public String toString() {
         Formatter out = new Formatter();
         for (int row = size() - 1; row >= 0; row -= 1) {
+            out.format("%d", row + 1);
             for (int col = 0; col < size(); col += 1) {
                 if (col % 3 == 0) {
                     if (tile(col, row) == null) {
@@ -104,7 +105,16 @@ public class Model extends Observable{
             }
             out.format(" |%n");
         }
-        out.format("%s", gameOver());
+        for (int col = 0; col < 9; col++) {
+            if (col == 0) {
+                out.format(" %4d", col + 1);
+            } else if (col % 3 == 0) {
+                out.format(" %3d", col + 1);
+            } else {
+                out.format(" %2d", col + 1);
+            }
+        }
+        out.format("%n  Game is Over? %s", gameOver());
         return out.toString();
     }
 
