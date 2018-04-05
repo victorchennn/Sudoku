@@ -25,11 +25,19 @@ public class Model extends Observable{
         setChanged();
     }
 
-    /** Add TILE to the board.  There must be no Tile currently at the
+    /** Add TILE to the board. There must be no Tile currently at the
      *  same position. */
     void addTile(Tile tile) {
         assert _board[tile.col()][tile.row()] == null;
         _board[tile.col()][tile.row()] = tile;
+        setChanged();
+    }
+
+    /** Delete TILE at (COL, ROW) from the board. There must be a Tile
+     * currently at that same position. */
+    void deleteTile(int col, int row) {
+        assert _board[col][row] != null;
+        _board[col][row] = null;
         setChanged();
     }
 
@@ -91,13 +99,13 @@ public class Model extends Observable{
             for (int col = 0; col < size(); col += 1) {
                 if (col % 3 == 0) {
                     if (tile(col, row) == null) {
-                        out.format(" | ");
+                        out.format(" |  ");
                     } else {
                         out.format(" |%2d", tile(col, row).value());
                     }
                 } else {
                     if (tile(col, row) == null) {
-                        out.format("  ");
+                        out.format("   ");
                     } else {
                         out.format(" %2d", tile(col, row).value());
                     }

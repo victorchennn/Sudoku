@@ -35,6 +35,7 @@ public class UnitTest {
                 m.addTile(Tile.create(ex[r][c], c, r));
             }
         }
+
         System.out.println(m);
     }
 
