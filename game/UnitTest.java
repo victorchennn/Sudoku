@@ -12,8 +12,8 @@ public class UnitTest {
     public static void main(String[] ignored) {
         /* textui.runClasses(); */
         Random ran = new Random();
-        int a = ran.nextInt(9) + 1;
-        System.out.println(a);
+        int a = 8;
+        System.out.println(5 / 3);
     }
 
     @Test
@@ -36,6 +36,9 @@ public class UnitTest {
             }
         }
         System.out.println(m);
+        for (Tile t : m.section(3,8)) {
+            System.out.println(t);
+        }
     }
 
 }

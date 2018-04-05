@@ -57,12 +57,14 @@ public class Model extends Observable{
 
     }
 
-    /** Return the current whole column values at that COL. */
+    /** Return the current whole column values at that COL,
+     * from bottom to top. */
     Tile[] col(int col) {
         return _board[col];
     }
 
-    /** Return the current whole row values at that ROW. */
+    /** Return the current whole row values at that ROW,
+     * from left to right. */
     Tile[] row(int row) {
         Tile[] column = new Tile[size()];
         int i = 0;
@@ -74,10 +76,16 @@ public class Model extends Observable{
     }
 
     /** Return the current whole values in its 3*3 section at
-     * that (COL, ROW). */
+     * that (COL, ROW), from left to right, bottom to top. */
     Tile[] section(int col, int row) {
-        Tile[] part = new Tile[size()];
-        return part;
+        Tile[] section = new Tile[size()];
+        for (int p = 0, r = (row / 3 ) * 3; r < (row / 3 ) * 3 + 3; r++) {
+            for (int c = (col / 3 ) * 3; c < (col / 3 ) * 3 + 3; c++) {
+                section[p] = _board[c][r];
+                p++;
+            }
+        }
+        return section;
     }
 
     /** Return the current Tile at (COL, ROW), where 0 <= ROW < size(),
