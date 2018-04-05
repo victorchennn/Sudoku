@@ -8,10 +8,15 @@ public class Tile {
      * @param row My current row.
      * @param col My current column.
      */
-    private Tile(int value, int row, int col) {
+    private Tile(int value, int col, int row) {
         _value = value;
         _row = row;
         _col = col;
+    }
+
+    /** Return a new tile at (ROW, COL) with value VALUE. */
+    static Tile create(int value, int col, int row) {
+        return new Tile(value, col, row);
     }
 
     /** Return my current row. */
@@ -27,6 +32,11 @@ public class Tile {
     /** Return the value supplied to my constructor. */
     int value() {
         return _value;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%d @ (%d, %d)", value(), col(), row());
     }
 
     /** Value. */
