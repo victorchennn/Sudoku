@@ -3,6 +3,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
@@ -25,20 +26,20 @@ public class UnitTest {
 //        System.out.println(m);
         int[] c0 = {3,2,9,7,4,8,1,6,5};
         int[] c6 = {1,6,2,8,7,4,5,3,9};
-        assertEquals(Arrays.equals(c0, m.col(0)), true);
-        assertEquals(Arrays.equals(c6, m.col(6)), true);
+        assertEquals(Arrays.equals(c0, m.covertTile(m.col(0))), true);
+        assertEquals(Arrays.equals(c6, m.covertTile(m.col(6))), true);
         int[] r0 = {3,4,5,2,8,6,1,7,9};
         int[] r8 = {5,3,4,6,7,8,9,1,2};
-        assertEquals(Arrays.equals(r0, m.row(0)), true);
-        assertEquals(Arrays.equals(r8, m.row(8)), true);
+        assertEquals(Arrays.equals(r0, m.covertTile(m.row(0))), true);
+        assertEquals(Arrays.equals(r8, m.covertTile(m.row(8))), true);
         int[] s0_0 = {3,4,5,2,8,7,9,6,1};
         int[] s3_3 = {9,2,4,8,5,3,7,6,1};
-        assertEquals(Arrays.equals(s0_0, m.section(0, 0)), true);
-        assertEquals(Arrays.equals(s0_0, m.section(2, 2)), true);
-        assertEquals(Arrays.equals(s0_0, m.section(2, 1)), true);
-        assertEquals(Arrays.equals(s3_3, m.section(3, 3)), true);
-        assertEquals(Arrays.equals(s3_3, m.section(5, 5)), true);
-        assertEquals(Arrays.equals(s3_3, m.section(4, 5)), true);
+        assertEquals(Arrays.equals(s0_0, m.covertTile(m.section(0, 0))), true);
+        assertEquals(Arrays.equals(s0_0, m.covertTile(m.section(2, 2))), true);
+        assertEquals(Arrays.equals(s0_0, m.covertTile(m.section(2, 1))), true);
+        assertEquals(Arrays.equals(s3_3, m.covertTile(m.section(3, 3))), true);
+        assertEquals(Arrays.equals(s3_3, m.covertTile(m.section(5, 5))), true);
+        assertEquals(Arrays.equals(s3_3, m.covertTile(m.section(4, 5))), true);
     }
 
     @Test
@@ -51,27 +52,36 @@ public class UnitTest {
         int[] c0_cg1 = {0,2,9,7,4,8,1,6,5};
         int[] r0 = {3,4,5,2,8,6,1,7,9};
         int[] r0_cg1 = {0,4,5,2,8,6,1,7,9};
-        assertEquals(Arrays.equals(c0, m.col(0)), false);
-        assertEquals(Arrays.equals(c0_cg1, m.col(0)), true);
-        assertEquals(Arrays.equals(r0, m.row(0)), false);
-        assertEquals(Arrays.equals(r0_cg1, m.row(0)), true);
+        assertEquals(Arrays.equals(c0, m.covertTile(m.col(0))), false);
+        assertEquals(Arrays.equals(c0_cg1, m.covertTile(m.col(0))), true);
+        assertEquals(Arrays.equals(r0, m.covertTile(m.row(0))), false);
+        assertEquals(Arrays.equals(r0_cg1, m.covertTile(m.row(0))), true);
 
         m.deleteTile(0,6);
         m.deleteTile(8,0);
         int[] c0_cg2 = {0,2,9,7,4,8,0,6,5};
         int[] r0_cg2 = {0,4,5,2,8,6,1,7,0};
-        assertEquals(Arrays.equals(c0_cg2, m.col(0)), true);
-        assertEquals(Arrays.equals(r0_cg2, m.row(0)), true);
+        assertEquals(Arrays.equals(c0_cg2, m.covertTile(m.col(0))), true);
+        assertEquals(Arrays.equals(r0_cg2, m.covertTile(m.row(0))), true);
 
         m.addTile(Tile.create(1,0, 6));
         m.addTile(Tile.create(9,8, 0));
-        assertEquals(Arrays.equals(c0_cg1, m.col(0)), true);
-        assertEquals(Arrays.equals(r0_cg1, m.row(0)), true);
+        assertEquals(Arrays.equals(c0_cg1, m.covertTile(m.col(0))), true);
+        assertEquals(Arrays.equals(r0_cg1, m.covertTile(m.row(0))), true);
 
         m.addTile(Tile.create(3,0, 0));
         assertNotNull(m.tile(0,0));
-        assertEquals(Arrays.equals(c0, m.col(0)), true);
-        assertEquals(Arrays.equals(r0, m.row(0)), true);
+        assertEquals(Arrays.equals(c0, m.covertTile(m.col(0))), true);
+        assertEquals(Arrays.equals(r0, m.covertTile(m.row(0))), true);
+    }
+
+    @Test
+    public void test_1() {
+        Model m = get_exmp1();
+        List posb = m.tile(0,0).posbnum();
+        Random r = new Random();
+        int a = (Integer) posb.get(r.nextInt(posb.size()));
+        System.out.println(a);
     }
 
     private Model get_exmp1() {

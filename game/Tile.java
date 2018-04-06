@@ -1,8 +1,6 @@
 package game;
 
-import java.util.Formatter;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Tile {
 
@@ -11,7 +9,7 @@ public class Tile {
         _value = value;
         _row = row;
         _col = col;
-        _posbnum = new HashSet<>();
+        _posbnum = new ArrayList<>();
         for (int i = 1; i <= 9; i++) {
             _posbnum.add(i);
         }
@@ -28,7 +26,7 @@ public class Tile {
     }
 
     /** Return my current possible numbers. */
-    Set<Integer> posbnum() {
+    ArrayList<Integer> posbnum() {
         return _posbnum;
     }
 
@@ -63,7 +61,7 @@ public class Tile {
     }
 
     /** Potential possible numbers. */
-    private Set<Integer> _posbnum;
+    private ArrayList<Integer> _posbnum;
 
     /** Value. */
     private int _value;

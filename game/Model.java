@@ -1,9 +1,6 @@
 package game;
 
-import java.util.Arrays;
-import java.util.Formatter;
-import java.util.Observable;
-import java.util.Random;
+import java.util.*;
 
 public class Model extends Observable{
 
@@ -54,7 +51,15 @@ public class Model extends Observable{
 
     /** Generate a new random sudoku board with full values. */
     void generateFull() {
+        Random ran = new Random();
+        for (int r = 0; r < size(); r++) {
+            for (int c = 0; c < size(); c++) {
+                List posb = _board[c][r].posbnum();
+                int value = (Integer) posb.get(ran.nextInt(posb.size()));
+                addTile(Tile.create(value, c, r));
 
+            }
+        }
     }
 
     /** Randomly delete some tiles with value and generate a complete sudoku
@@ -65,50 +70,38 @@ public class Model extends Observable{
 
     /** Return the current whole column values at that COL,
      * from bottom to top. */
-    int[] col(int col) {
-        int[] result = new int[size()];
-        int i = 0;
-        for (Tile t : _board[col]) {
-            if (t == null) {
-                result[i] = 0;
-            } else {
-                result[i] = t.value();
-            }
-            i++;
-        }
-        return result;
+    Tile[] col(int col) {
+        return _board[col];
     }
 
     /** Return the current whole row values at that ROW,
      * from left to right. */
-    int[] row(int row) {
-        int[] result = new int[size()];
+    Tile[] row(int row) {
+        Tile[] column = new Tile[size()];
         int i = 0;
         while(i < size()) {
-            if (_board[i][row] == null) {
-                result[i] = 0;
-            } else {
-                result[i] = _board[i][row].value();
-            }
+           column[i] = _board[i][row];
             i++;
         }
-        return result;
+        return column;
     }
 
     /** Return the current whole values in its 3*3 section at
      * that (COL, ROW), from left to right, bottom to top. */
-    int[] section(int col, int row) {
-        int[] result = new int[size()];
+    Tile[] section(int col, int row) {
+        Tile[] section = new Tile[size()];
         for (int i = 0, r = (row / 3 ) * 3; r < (row / 3 ) * 3 + 3; r++) {
             for (int c = (col / 3 ) * 3; c < (col / 3 ) * 3 + 3; c++) {
-                if (_board[c][r] == null) {
-                    result[i] = 0;
-                } else {
-                    result[i] = _board[c][r].value();
-                }
+                section[i] = _board[c][r];
                 i++;
             }
         }
+        return section;
+    }
+
+    /** Convert a list of tiles to their values. */
+    int[] covertTile(Tile[] t) {
+        int[] result = new int[size()];
         return result;
     }
 
