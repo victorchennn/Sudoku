@@ -1,17 +1,20 @@
 package game;
 
+import java.util.Formatter;
+import java.util.HashSet;
+import java.util.Set;
+
 public class Tile {
 
-    /**
-     * A new tile with VALUE as its value at (ROW, COL).
-     * @param value Value in my position.
-     * @param row My current row.
-     * @param col My current column.
-     */
+    /** A new tile with VALUE as its value at (ROW, COL). */
     private Tile(int value, int col, int row) {
         _value = value;
         _row = row;
         _col = col;
+        _posbnum = new HashSet<>();
+        for (int i = 1; i <= 9; i++) {
+            _posbnum.add(i);
+        }
     }
 
     /** Return a new tile at (ROW, COL) with value VALUE. */
@@ -22,6 +25,11 @@ public class Tile {
     /** Change the value. **/
     void changeValue(int value) {
         _value = value;
+    }
+
+    /** Return my current possible numbers. */
+    Set<Integer> posbnum() {
+        return _posbnum;
     }
 
     /** Return my current row. */
@@ -41,8 +49,21 @@ public class Tile {
 
     @Override
     public String toString() {
-        return String.format("%d @ (%d, %d)", value(), col(), row());
+        Formatter out = new Formatter();
+        out.format("value = %2d, column = %2d, row = %2d %n", value(), col(), row());
+        if (posbnum().size() == 0) {
+            out.format("There is no possible value.");
+        } else {
+            out.format("possible values: ");
+            for (int i : posbnum()) {
+                out.format("%2d", i);
+            }
+        }
+        return out.toString();
     }
+
+    /** Potential possible numbers. */
+    private Set<Integer> _posbnum;
 
     /** Value. */
     private int _value;

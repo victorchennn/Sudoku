@@ -149,6 +149,9 @@ public class Model extends Observable{
     public String toString() {
         Formatter out = new Formatter();
         for (int row = size() - 1; row >= 0; row -= 1) {
+            if (row == 5 || row == 2) {
+                out.format("    -  -  -   -  -  -   -  -  -%n");
+            }
             out.format("%d", row);
             for (int col = 0; col < size(); col += 1) {
                 if (col % 3 == 0) {
@@ -176,7 +179,7 @@ public class Model extends Observable{
                 out.format(" %2d", col);
             }
         }
-        out.format("%n  Game is Over? %s", gameOver());
+        out.format("%nGame is Over?  %s", gameOver());
         return out.toString();
     }
 

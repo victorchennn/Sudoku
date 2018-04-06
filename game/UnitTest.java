@@ -74,7 +74,7 @@ public class UnitTest {
         assertEquals(Arrays.equals(r0, m.row(0)), true);
     }
 
-    Model get_exmp1() {
+    private Model get_exmp1() {
         int[][] ex = {
                 {3,4,5,2,8,6,1,7,9},
                 {2,8,7,4,1,9,6,3,5},
