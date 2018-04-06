@@ -19,6 +19,11 @@ public class Tile {
         return new Tile(value, col, row);
     }
 
+    /** Change the value. **/
+    void changeValue(int value) {
+        _value = value;
+    }
+
     /** Return my current row. */
     int row() {
         return _row;
@@ -40,7 +45,7 @@ public class Tile {
     }
 
     /** Value. */
-    private final int _value;
+    private int _value;
 
     /** Position. */
     private final int _row, _col;

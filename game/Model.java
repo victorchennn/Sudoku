@@ -46,6 +46,12 @@ public class Model extends Observable{
         deleteTile(tile.col(), tile.row());
     }
 
+    void changeTile(int col, int row, int value) {
+        assert _board[col][row] != null;
+        _board[col][row].changeValue(value);
+        setChanged();
+    }
+
     /** Generate a new random sudoku board with full values. */
     void generateFull() {
 
@@ -59,33 +65,51 @@ public class Model extends Observable{
 
     /** Return the current whole column values at that COL,
      * from bottom to top. */
-    Tile[] col(int col) {
-        return _board[col];
+    int[] col(int col) {
+        int[] result = new int[size()];
+        int i = 0;
+        for (Tile t : _board[col]) {
+            if (t == null) {
+                result[i] = 0;
+            } else {
+                result[i] = t.value();
+            }
+            i++;
+        }
+        return result;
     }
 
     /** Return the current whole row values at that ROW,
      * from left to right. */
-    Tile[] row(int row) {
-        Tile[] column = new Tile[size()];
+    int[] row(int row) {
+        int[] result = new int[size()];
         int i = 0;
         while(i < size()) {
-            column[i] = _board[i][row];
+            if (_board[i][row] == null) {
+                result[i] = 0;
+            } else {
+                result[i] = _board[i][row].value();
+            }
             i++;
         }
-        return column;
+        return result;
     }
 
     /** Return the current whole values in its 3*3 section at
      * that (COL, ROW), from left to right, bottom to top. */
-    Tile[] section(int col, int row) {
-        Tile[] section = new Tile[size()];
-        for (int p = 0, r = (row / 3 ) * 3; r < (row / 3 ) * 3 + 3; r++) {
+    int[] section(int col, int row) {
+        int[] result = new int[size()];
+        for (int i = 0, r = (row / 3 ) * 3; r < (row / 3 ) * 3 + 3; r++) {
             for (int c = (col / 3 ) * 3; c < (col / 3 ) * 3 + 3; c++) {
-                section[p] = _board[c][r];
-                p++;
+                if (_board[c][r] == null) {
+                    result[i] = 0;
+                } else {
+                    result[i] = _board[c][r].value();
+                }
+                i++;
             }
         }
-        return section;
+        return result;
     }
 
     /** Return the current Tile at (COL, ROW), where 0 <= ROW < size(),
@@ -102,6 +126,23 @@ public class Model extends Observable{
     /** Return true iff the game is over. */
     boolean gameOver() {
         return _gameover;
+    }
+
+    /** Return out format for the section at (COL, ROW). */
+    public String printsection(int col, int row) {
+        Formatter out = new Formatter();
+        for (int r = (row / 3 ) * 3 + 2; r >= (row / 3 ) * 3; r--) {
+            out.format("%d|", r);
+            for (int c = (col / 3 ) * 3; c < (col / 3 ) * 3 + 3; c++) {
+                out.format(" %2d", _board[c][r].value());
+            }
+            out.format(" %n");
+        }
+        out.format("  ");
+        for (int c = (col / 3 ) * 3; c < (col / 3 ) * 3 + 3; c++) {
+            out.format(" %2d", c);
+        }
+        return out.toString();
     }
 
     @Override
