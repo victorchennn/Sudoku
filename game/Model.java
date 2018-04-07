@@ -10,14 +10,17 @@ public class Model extends Observable{
      */
     Model(int size) {
         _board = new Tile[size][size];
+        clear();
         _gameover = false;
     }
 
     /** Clear the board to empty. */
     void clear() {
         _gameover = false;
-        for (Tile[] col : _board) {
-            Arrays.fill(col, null);
+        for (int r = 0; r < size(); r++) {
+            for (int c = 0; c < size(); c++) {
+                _board[r][c] = Tile.create(0, c, r);
+            }
         }
         setChanged();
     }
@@ -25,16 +28,16 @@ public class Model extends Observable{
     /** Add TILE to the board. There must be no Tile currently at the
      *  same position. */
     void addTile(Tile tile) {
-        assert _board[tile.col()][tile.row()] == null;
-        _board[tile.col()][tile.row()] = tile;
+        assert _board[tile.col()][tile.row()].value() == 0;
+        _board[tile.col()][tile.row()].changeValue(tile.value());
         setChanged();
     }
 
     /** Delete TILE at (COL, ROW) from the board. There must be a Tile
      * currently at that position. */
     void deleteTile(int col, int row) {
-        assert _board[col][row] != null;
-        _board[col][row] = null;
+        assert _board[col][row].value() != 0;
+        _board[col][row].changeValue(0);
         setChanged();
     }
 
@@ -43,23 +46,23 @@ public class Model extends Observable{
         deleteTile(tile.col(), tile.row());
     }
 
-    void changeTile(int col, int row, int value) {
-        assert _board[col][row] != null;
-        _board[col][row].changeValue(value);
-        setChanged();
-    }
-
     /** Generate a new random sudoku board with full values. */
     void generateFull() {
         Random ran = new Random();
-        for (int r = 0; r < size(); r++) {
-            for (int c = 0; c < size(); c++) {
-                List posb = _board[c][r].posbnum();
-                int value = (Integer) posb.get(ran.nextInt(posb.size()));
-                addTile(Tile.create(value, c, r));
-
-            }
+        for (int c = 0; c < size(); c++) {
+            List posb = _board[c][0].posbnum();
+            int value = (Integer) posb.get(ran.nextInt(posb.size()));
+            addTile(Tile.create(value, c, 0));
+            deletepossible(c, 0, value);
         }
+//        for (int r = 0; r < size(); r++) {
+//            for (int c = 0; c < size(); c++) {
+//                List posb = _board[c][r].posbnum();
+//                int value = (Integer) posb.get(ran.nextInt(posb.size()));
+//                addTile(Tile.create(value, c, r));
+//                deletepossible(c, r, value);
+//            }
+//        }
     }
 
     /** Randomly delete some tiles with value and generate a complete sudoku
@@ -80,7 +83,7 @@ public class Model extends Observable{
         Tile[] column = new Tile[size()];
         int i = 0;
         while(i < size()) {
-           column[i] = _board[i][row];
+            column[i] = _board[i][row];
             i++;
         }
         return column;
@@ -100,9 +103,30 @@ public class Model extends Observable{
     }
 
     /** Convert a list of tiles to their values. */
-    int[] covertTile(Tile[] t) {
+    int[] covertTile(Tile[] tiles) {
         int[] result = new int[size()];
+        int i = 0;
+        for (Tile t : tiles) {
+            if (t == null) {
+                result[i] = 0;
+            } else {
+                result[i] = t.value();
+            }
+            i++;
+        }
         return result;
+    }
+
+    void deletepossible(int c, int r, int value) {
+        for (Tile t : col(c)) {
+            t.posbnum().remove(new Integer(value));
+        }
+        for (Tile t : row(r)) {
+            t.posbnum().remove(new Integer(value));
+        }
+        for (Tile t : section(c, r)) {
+            t.posbnum().remove(new Integer(value));
+        }
     }
 
     /** Return the current Tile at (COL, ROW), where 0 <= ROW < size(),
@@ -127,7 +151,11 @@ public class Model extends Observable{
         for (int r = (row / 3 ) * 3 + 2; r >= (row / 3 ) * 3; r--) {
             out.format("%d|", r);
             for (int c = (col / 3 ) * 3; c < (col / 3 ) * 3 + 3; c++) {
-                out.format(" %2d", _board[c][r].value());
+                if (tile(c, r).value() == 0) {
+                    out.format("   ");
+                } else {
+                    out.format(" %2d", _board[c][r].value());
+                }
             }
             out.format(" %n");
         }
@@ -148,13 +176,13 @@ public class Model extends Observable{
             out.format("%d", row);
             for (int col = 0; col < size(); col += 1) {
                 if (col % 3 == 0) {
-                    if (tile(col, row) == null) {
+                    if (tile(col, row).value() == 0) {
                         out.format(" |  ");
                     } else {
                         out.format(" |%2d", tile(col, row).value());
                     }
                 } else {
-                    if (tile(col, row) == null) {
+                    if (tile(col, row).value() == 0) {
                         out.format("   ");
                     } else {
                         out.format(" %2d", tile(col, row).value());
