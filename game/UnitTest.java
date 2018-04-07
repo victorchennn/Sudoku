@@ -47,7 +47,7 @@ public class UnitTest {
         Model m = get_exmp1();
 
         m.deleteTile(0,0);
-        assertNull(m.tile(0,0));
+        assertEquals(m.tile(0,0).value(), 0);
         int[] c0 = {3,2,9,7,4,8,1,6,5};
         int[] c0_cg1 = {0,2,9,7,4,8,1,6,5};
         int[] r0 = {3,4,5,2,8,6,1,7,9};
@@ -70,18 +70,23 @@ public class UnitTest {
         assertEquals(Arrays.equals(r0_cg1, m.covertTile(m.row(0))), true);
 
         m.addTile(Tile.create(3,0, 0));
-        assertNotNull(m.tile(0,0));
+        assertEquals(m.tile(0,0).value(), 3);
         assertEquals(Arrays.equals(c0, m.covertTile(m.col(0))), true);
         assertEquals(Arrays.equals(r0, m.covertTile(m.row(0))), true);
     }
 
     @Test
     public void test_1() {
-        Model m = get_exmp1();
-        List posb = m.tile(0,0).posbnum();
-        Random r = new Random();
-        int a = (Integer) posb.get(r.nextInt(posb.size()));
-        System.out.println(a);
+//        Model m = get_exmp1();
+//        List posb = m.tile(0,0).posbnum();
+//        Random r = new Random();
+//        int a = (Integer) posb.get(r.nextInt(posb.size()));
+//        System.out.println(a);
+        Model m = new Model(9);
+        m.generateFull();
+        System.out.println(m);
+//        m.deleteTile(3,3);
+//        System.out.println(m.printsection(3,3));
     }
 
     private Model get_exmp1() {
