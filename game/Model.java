@@ -49,20 +49,24 @@ public class Model extends Observable{
     /** Generate a new random sudoku board with full values. */
     void generateFull() {
         Random ran = new Random();
-        for (int c = 0; c < size(); c++) {
-            List posb = _board[c][0].posbnum();
-            int value = (Integer) posb.get(ran.nextInt(posb.size()));
-            addTile(Tile.create(value, c, 0));
-            deletepossible(c, 0, value);
-        }
-//        for (int r = 0; r < size(); r++) {
-//            for (int c = 0; c < size(); c++) {
-//                List posb = _board[c][r].posbnum();
-//                int value = (Integer) posb.get(ran.nextInt(posb.size()));
-//                addTile(Tile.create(value, c, r));
-//                deletepossible(c, r, value);
-//            }
+//        for (int c = 0; c < size(); c++) {
+//            List posb = _board[c][0].posbnum();
+//            int value = (Integer) posb.get(ran.nextInt(posb.size()));
+//            addTile(Tile.create(value, c, 0));
+//            deletepossible(c, 0, value);
 //        }
+        for (int r = 0; r < size(); r++) {
+            for (int c = 0; c < size(); c++) {
+                List posb = _board[c][r].posbnum();
+                if (posb.size() == 0) {
+                    
+                } else {
+                    int value = (Integer) posb.get(ran.nextInt(posb.size()));
+                    addTile(Tile.create(value, c, r));
+                    deletepossible(c, r, value);
+                }
+            }
+        }
     }
 
     /** Randomly delete some tiles with value and generate a complete sudoku
@@ -91,7 +95,7 @@ public class Model extends Observable{
 
     /** Return the current whole values in its 3*3 section at
      * that (COL, ROW), from left to right, bottom to top. */
-    Tile[] section(int col, int row) {
+    Tile[] sec(int col, int row) {
         Tile[] section = new Tile[size()];
         for (int i = 0, r = (row / 3 ) * 3; r < (row / 3 ) * 3 + 3; r++) {
             for (int c = (col / 3 ) * 3; c < (col / 3 ) * 3 + 3; c++) {
@@ -102,8 +106,30 @@ public class Model extends Observable{
         return section;
     }
 
-    /** Convert a list of tiles to their values. */
-    int[] covertTile(Tile[] tiles) {
+    /** Use index to return section, numbered from left to right,
+     * bottom to right. */
+    Tile[] sec(int index) {
+        switch (index) {
+            case 0: case 4: case 8:
+                return sec(index, index);
+            case 1:
+                return sec(4,1);
+            case 2:
+                return sec(7,1);
+            case 3:
+                return sec(1,4);
+            case 5:
+                return sec(7,4);
+            case 6:
+                return sec(1,7);
+            case 7:
+                return sec(4,7);
+        }
+        return null;
+    }
+
+    /** Convert a list of tiles to an array with their values. */
+    int[] convertToArray(Tile[] tiles) {
         int[] result = new int[size()];
         int i = 0;
         for (Tile t : tiles) {
@@ -117,14 +143,41 @@ public class Model extends Observable{
         return result;
     }
 
-    void deletepossible(int c, int r, int value) {
-        for (Tile t : col(c)) {
+    /** Convert a list of tiles to a set with their values. */
+    HashSet convertToSet(Tile[] tiles) {
+        HashSet<Integer> result = new HashSet<>();
+        for (Tile t : tiles) {
+            if (t.value() != 0) {
+                result.add(t.value());
+            }
+        }
+        return result;
+    }
+
+    /** Check board is complete or not. */
+    boolean complete() {
+        boolean result = true;
+        for (int i = 0; i < 9; i++) {
+            int row_size = convertToSet(row(i)).size();
+            int col_size = convertToSet(col(i)).size();
+            int sec_size = convertToSet(sec(i)).size();
+            if (row_size != 9 || col_size != 9 || sec_size != 9) {
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
+
+    /** Delete possible values in all tiles in its ROW, COL, SECTION. */
+    void deletepossible(int col, int row, int value) {
+        for (Tile t : col(col)) {
             t.posbnum().remove(new Integer(value));
         }
-        for (Tile t : row(r)) {
+        for (Tile t : row(row)) {
             t.posbnum().remove(new Integer(value));
         }
-        for (Tile t : section(c, r)) {
+        for (Tile t : sec(col, row)) {
             t.posbnum().remove(new Integer(value));
         }
     }
