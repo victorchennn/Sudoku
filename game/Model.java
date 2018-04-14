@@ -1,5 +1,7 @@
 package game;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.util.*;
 
 public class Model extends Observable{
@@ -10,8 +12,9 @@ public class Model extends Observable{
      */
     Model(int size) {
         _board = new Tile[size][size];
-        clear();
         _gameover = false;
+        _unassigned = new ArrayList<>();
+        clear();
     }
 
     /** Clear the board to empty. */
@@ -19,7 +22,9 @@ public class Model extends Observable{
         _gameover = false;
         for (int r = 0; r < size(); r++) {
             for (int c = 0; c < size(); c++) {
-                _board[r][c] = Tile.create(0, c, r);
+                Tile t = Tile.create(0, c, r);
+                _board[c][r] = t;
+                _unassigned.add(t);
             }
         }
         setChanged();
@@ -46,27 +51,36 @@ public class Model extends Observable{
         deleteTile(tile.col(), tile.row());
     }
 
+    Model generateFull(Model m) {
+        return generateFull_helper(m, unassigned());
+    }
+
     /** Generate a new random sudoku board with full values. */
-    void generateFull() {
+    Model generateFull_helper(Model m, List s) {
+        if (m.complete()) {
+            return m;
+        }
         Random ran = new Random();
-//        for (int c = 0; c < size(); c++) {
-//            List posb = _board[c][0].posbnum();
-//            int value = (Integer) posb.get(ran.nextInt(posb.size()));
-//            addTile(Tile.create(value, c, 0));
-//            deletepossible(c, 0, value);
-//        }
-        for (int r = 0; r < size(); r++) {
-            for (int c = 0; c < size(); c++) {
-                List posb = _board[c][r].posbnum();
-                if (posb.size() == 0) {
-                    
-                } else {
-                    int value = (Integer) posb.get(ran.nextInt(posb.size()));
-                    addTile(Tile.create(value, c, r));
-                    deletepossible(c, r, value);
+        Tile t = (Tile) s.get(0);
+        assert t.value() == 0;
+        ArrayList<Integer> temp = new ArrayList<>(possnumber(t.col(), t.row()));
+        while (temp.size() > 0) {
+            int i = temp.get((ran.nextInt(temp.size())));
+            if (!ArrayUtils.contains(m.convertToArray(m.row(t.row())), i) &&
+                    !ArrayUtils.contains(m.convertToArray(m.col(t.col())), i) &&
+                    !ArrayUtils.contains(m.convertToArray(m.sec(t.col(), t.row())), i)) {
+                m.addTile(Tile.create(i, t.col(), t.row()));
+                s.remove(t);
+                Model model = generateFull_helper(m, s);
+                if (model.complete()) {
+                    return model;
                 }
             }
+            temp.remove(new Integer(i));
+            m.deleteTile(t.col(), t.row());
+            s.add(0, t);
         }
+        return m;
     }
 
     /** Randomly delete some tiles with value and generate a complete sudoku
@@ -169,17 +183,27 @@ public class Model extends Observable{
         return result;
     }
 
-    /** Delete possible values in all tiles in its ROW, COL, SECTION. */
-    void deletepossible(int col, int row, int value) {
+    ArrayList<Integer> possnumber(int col, int row) {
+        ArrayList<Integer> p = new ArrayList<>();
+        for (int i = 1; i <= 9; i++) {
+            p.add(i);
+        }
         for (Tile t : col(col)) {
-            t.posbnum().remove(new Integer(value));
+            if (t.value() != 0) {
+                p.remove(new Integer(t.value()));
+            }
         }
         for (Tile t : row(row)) {
-            t.posbnum().remove(new Integer(value));
+            if (t.value() != 0) {
+                p.remove(new Integer(t.value()));
+            }
         }
         for (Tile t : sec(col, row)) {
-            t.posbnum().remove(new Integer(value));
+            if (t.value() != 0) {
+                p.remove(new Integer(t.value()));
+            }
         }
+        return p;
     }
 
     /** Return the current Tile at (COL, ROW), where 0 <= ROW < size(),
@@ -196,6 +220,11 @@ public class Model extends Observable{
     /** Return true iff the game is over. */
     boolean gameOver() {
         return _gameover;
+    }
+
+    /** Return the unassigned variables. */
+    List<Tile> unassigned() {
+        return _unassigned;
     }
 
     /** Return out format for the section at (COL, ROW). */
@@ -262,4 +291,7 @@ public class Model extends Observable{
 
     /** True iff game is ended. */
     private boolean _gameover;
+
+    /** Store the unassigned tiles. */
+    private List<Tile> _unassigned;
 }

@@ -12,7 +12,7 @@ public class Game {
 
     void playGame() {
         _model.clear();
-        _model.generateFull();
+        _model.generateFull(_model);
         while (_playing) {
 
         }

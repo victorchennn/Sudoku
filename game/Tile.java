@@ -9,13 +9,9 @@ public class Tile {
         _value = value;
         _row = row;
         _col = col;
-        _posbnum = new ArrayList<>();
-        for (int i = 1; i <= 9; i++) {
-            _posbnum.add(i);
-        }
     }
 
-    /** Return a new tile at (ROW, COL) with value VALUE. */
+    /** Return a new tile at (COL, ROW) with value VALUE. */
     static Tile create(int value, int col, int row) {
         return new Tile(value, col, row);
     }
@@ -23,11 +19,6 @@ public class Tile {
     /** Change the value. **/
     void changeValue(int value) {
         _value = value;
-    }
-
-    /** Return my current possible numbers. */
-    ArrayList<Integer> posbnum() {
-        return _posbnum;
     }
 
     /** Return my current row. */
@@ -49,14 +40,6 @@ public class Tile {
     public String toString() {
         Formatter out = new Formatter();
         out.format("value = %2d, column = %2d, row = %2d %n", value(), col(), row());
-        if (posbnum().size() == 0) {
-            out.format("There is no possible value.");
-        } else {
-            out.format("possible values: ");
-            for (int i : posbnum()) {
-                out.format("%2d", i);
-            }
-        }
         return out.toString();
     }
 

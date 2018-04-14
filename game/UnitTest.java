@@ -95,6 +95,13 @@ public class UnitTest {
         assertEquals(m3.complete(), true);
     }
 
+    @Test
+    public void test_complete() {
+        Model m = new Model(9);
+        System.out.println(m.generateFull(m));
+
+    }
+
     /** Example1, completed. */
     private Model get_exmp1() {
         int[][] ex = {
