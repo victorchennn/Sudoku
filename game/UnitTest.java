@@ -98,7 +98,13 @@ public class UnitTest {
     @Test
     public void test_complete() {
         Model m = new Model(9);
-        System.out.println(m.generateFull(m));
+        for (int i = 0; i < 10; i++) {
+            Model temp = m.generateFull(m);
+            assertEquals(temp.complete(), true);
+            assertEquals(temp.tile(16), temp.tile(7,1));
+            assertEquals(temp.tile(30), temp.tile(3,3));
+            assertEquals(temp.tile(42), temp.tile(6,4));
+        }
 
     }
 

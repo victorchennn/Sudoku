@@ -89,15 +89,32 @@ public class Model extends Observable{
 
     }
 
+    /** Return the current Tile at (COL, ROW), where 0 <= ROW < size(),
+     *  0 <= COL < size(). Returns zero if there is no tile there. */
+    Tile tile(int col, int row) {
+        assert 0 <= col && col <= 8;
+        assert 0 <= row && row <= 8;
+        return _board[col][row];
+    }
+
+    /** Return the tile in its INDEX, numbered from left to right,
+     * bottom to top. */
+    Tile tile(int index) {
+        assert 0 <= index && index < 81;
+        return _board[index % size()][index / size()];
+    }
+
     /** Return the current whole column values at that COL,
      * from bottom to top. */
     Tile[] col(int col) {
+        assert 0 <= col && col <= 8;
         return _board[col];
     }
 
     /** Return the current whole row values at that ROW,
      * from left to right. */
     Tile[] row(int row) {
+        assert 0 <= row && row <= 8;
         Tile[] column = new Tile[size()];
         int i = 0;
         while(i < size()) {
@@ -110,6 +127,8 @@ public class Model extends Observable{
     /** Return the current whole values in its 3*3 section at
      * that (COL, ROW), from left to right, bottom to top. */
     Tile[] sec(int col, int row) {
+        assert 0 <= col && col <= 8;
+        assert 0 <= row && row <= 8;
         Tile[] section = new Tile[size()];
         for (int i = 0, r = (row / 3 ) * 3; r < (row / 3 ) * 3 + 3; r++) {
             for (int c = (col / 3 ) * 3; c < (col / 3 ) * 3 + 3; c++) {
@@ -123,6 +142,7 @@ public class Model extends Observable{
     /** Use index to return section, numbered from left to right,
      * bottom to right. */
     Tile[] sec(int index) {
+        assert 0 <= index && index < 9;
         switch (index) {
             case 0: case 4: case 8:
                 return sec(index, index);
@@ -204,12 +224,6 @@ public class Model extends Observable{
             }
         }
         return p;
-    }
-
-    /** Return the current Tile at (COL, ROW), where 0 <= ROW < size(),
-     *  0 <= COL < size(). Returns null if there is no tile there. */
-    Tile tile(int col, int row) {
-        return _board[col][row];
     }
 
     /** Return the number of squares on one side of the board. */
