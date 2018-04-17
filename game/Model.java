@@ -51,12 +51,9 @@ public class Model extends Observable{
         deleteTile(tile.col(), tile.row());
     }
 
-    Model generateFull(Model m) {
-        return generateFull_helper(m, unassigned());
-    }
 
     /** Generate a new random sudoku board with full values. */
-    Model generateFull_helper(Model m, List s) {
+    Model generateFull(Model m, List s) {
         if (m.complete()) {
             return m;
         }
@@ -71,7 +68,7 @@ public class Model extends Observable{
                     !ArrayUtils.contains(m.convertToArray(m.sec(t.col(), t.row())), i)) {
                 m.addTile(Tile.create(i, t.col(), t.row()));
                 s.remove(t);
-                Model model = generateFull_helper(m, s);
+                Model model = generateFull(m, s);
                 if (model.complete()) {
                     return model;
                 }
@@ -87,6 +84,13 @@ public class Model extends Observable{
      * board with a unique solution. */
     void generateComplete() {
 
+    }
+
+    Model sudoku_solver(Model m) {
+        if (m.complete()) {
+            return m;
+        }
+        return null;
     }
 
     /** Return the current Tile at (COL, ROW), where 0 <= ROW < size(),

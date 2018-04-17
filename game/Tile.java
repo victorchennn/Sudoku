@@ -39,12 +39,13 @@ public class Tile {
     @Override
     public String toString() {
         Formatter out = new Formatter();
-        out.format("value = %2d, column = %2d, row = %2d %n", value(), col(), row());
+        if (value() == 0) {
+            out.format("There is no number in current grid.");
+        } else {
+            out.format("value = %2d, column = %2d, row = %2d %n", value(), col(), row());
+        }
         return out.toString();
     }
-
-    /** Potential possible numbers. */
-    private ArrayList<Integer> _posbnum;
 
     /** Value. */
     private int _value;

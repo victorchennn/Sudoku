@@ -96,15 +96,26 @@ public class UnitTest {
     }
 
     @Test
-    public void test_complete() {
+    public void test_generate_Full() {
         Model m = new Model(9);
+        System.out.println(m.generateFull(m, m.unassigned()));
         for (int i = 0; i < 10; i++) {
-            Model temp = m.generateFull(m);
+            Model temp = m.generateFull(m, m.unassigned());
             assertEquals(temp.complete(), true);
             assertEquals(temp.tile(16), temp.tile(7,1));
             assertEquals(temp.tile(30), temp.tile(3,3));
             assertEquals(temp.tile(42), temp.tile(6,4));
         }
+    }
+
+    @Test
+    public void test_solver(){
+        Model m1 = get_exmp1_init();
+        System.out.println(m1);
+        System.out.println(m1.tile(6));
+    }
+    @Test
+    public void test_generate_Complete() {
 
     }
 
@@ -120,6 +131,28 @@ public class UnitTest {
                 {1,9,8,3,4,2,5,6,7},
                 {6,7,2,1,9,5,3,4,8},
                 {5,3,4,6,7,8,9,1,2},
+        };
+        Model m = new Model(9);
+        for (int r = 0; r < m.size(); r++) {
+            for (int c = 0; c < m.size(); c++) {
+                m.addTile(Tile.create(ex[r][c], c, r));
+            }
+        }
+        return m;
+    }
+
+    /** Example1, initialized. */
+    private Model get_exmp1_init() {
+        int[][] ex = {
+                {0,0,0,0,8,0,0,7,9},
+                {0,0,0,4,1,9,0,0,5},
+                {0,6,0,0,0,0,2,8,0},
+                {7,0,0,0,2,0,0,0,6},
+                {4,0,0,8,0,3,0,0,1},
+                {8,0,0,0,6,0,0,0,3},
+                {0,9,8,0,0,0,0,6,0},
+                {6,0,0,1,9,5,0,0,0},
+                {5,3,0,0,7,0,0,0,0},
         };
         Model m = new Model(9);
         for (int r = 0; r < m.size(); r++) {
