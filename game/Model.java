@@ -6,20 +6,21 @@ import java.util.*;
 
 public class Model extends Observable{
 
-    /**
-     * A new sudoku game on a board of size SIZE with no pieces.
-     * @param size Size of the board.
-     */
-    Model(int size) {
-        _board = new Tile[size][size];
-        _gameover = false;
-        _unassigned = new ArrayList<>();
+    /** A new sudoku game on the board. */
+    Model() {
         clear();
+    }
+
+    /** A copy of Model m. */
+    Model(Model m) {
+
     }
 
     /** Clear the board to empty. */
     void clear() {
+        _board = new Tile[9][9];
         _gameover = false;
+        _unassigned = new ArrayList<>();
         for (int r = 0; r < size(); r++) {
             for (int c = 0; c < size(); c++) {
                 Tile t = Tile.create(0, c, r);
@@ -28,7 +29,9 @@ public class Model extends Observable{
             }
         }
         setChanged();
+        notifyObservers();
     }
+
 
     /** Add TILE to the board. There must be no Tile currently at the
      *  same position. */
@@ -46,38 +49,9 @@ public class Model extends Observable{
         setChanged();
     }
 
-    /** Delete TILE tile. */
-    void deleteTile(Tile tile) {
-        deleteTile(tile.col(), tile.row());
-    }
-
-
     /** Generate a new random sudoku board with full values. */
-    Model generateFull(Model m, List s) {
-        if (m.complete()) {
-            return m;
-        }
-        Random ran = new Random();
-        Tile t = (Tile) s.get(0);
-        assert t.value() == 0;
-        ArrayList<Integer> temp = new ArrayList<>(possnumber(t.col(), t.row()));
-        while (temp.size() > 0) {
-            int i = temp.get((ran.nextInt(temp.size())));
-            if (!ArrayUtils.contains(m.convertToArray(m.row(t.row())), i) &&
-                    !ArrayUtils.contains(m.convertToArray(m.col(t.col())), i) &&
-                    !ArrayUtils.contains(m.convertToArray(m.sec(t.col(), t.row())), i)) {
-                m.addTile(Tile.create(i, t.col(), t.row()));
-                s.remove(t);
-                Model model = generateFull(m, s);
-                if (model.complete()) {
-                    return model;
-                }
-            }
-            temp.remove(new Integer(i));
-            m.deleteTile(t.col(), t.row());
-            s.add(0, t);
-        }
-        return m;
+    Model generateFull() {
+        return sudoku_solver();
     }
 
     /** Randomly delete some tiles with value and generate a complete sudoku
@@ -86,39 +60,60 @@ public class Model extends Observable{
 
     }
 
-    Model sudoku_solver(Model m) {
-        if (m.complete()) {
-            return m;
+    Model sudoku_solver() {
+        if (complete()) {
+            return this;
         }
-        return null;
+        List<Tile> unassigned = unassigned();
+        Random ran = new Random();
+        Tile t = unassigned.get(0);
+        assert t.value() == 0;
+        ArrayList<Integer> temp = new ArrayList<>(possnumber(t.col(), t.row()));
+        while (temp.size() > 0) {
+            int i = temp.get((ran.nextInt(temp.size())));
+            if (!ArrayUtils.contains(convertToArray(row(t.row())), i) &&
+                    !ArrayUtils.contains(convertToArray(col(t.col())), i) &&
+                    !ArrayUtils.contains(convertToArray(sec(t.col(), t.row())), i)) {
+                addTile(Tile.create(i, t.col(), t.row()));
+                unassigned.remove(t);
+                Model model = sudoku_solver();
+                if (model.complete()) {
+                    return model;
+                }
+            }
+            temp.remove(new Integer(i));
+            deleteTile(t.col(), t.row());
+            unassigned.add(0, t);
+        }
+        return this;
     }
 
     /** Return the current Tile at (COL, ROW), where 0 <= ROW < size(),
      *  0 <= COL < size(). Returns zero if there is no tile there. */
     Tile tile(int col, int row) {
-        assert 0 <= col && col <= 8;
-        assert 0 <= row && row <= 8;
+        assert 0 <= col && col < size();
+        assert 0 <= row && row < size();
         return _board[col][row];
     }
 
     /** Return the tile in its INDEX, numbered from left to right,
      * bottom to top. */
     Tile tile(int index) {
-        assert 0 <= index && index < 81;
+        assert 0 <= index && index < size() * size();
         return _board[index % size()][index / size()];
     }
 
     /** Return the current whole column values at that COL,
      * from bottom to top. */
     Tile[] col(int col) {
-        assert 0 <= col && col <= 8;
+        assert 0 <= col && col < size();
         return _board[col];
     }
 
     /** Return the current whole row values at that ROW,
      * from left to right. */
     Tile[] row(int row) {
-        assert 0 <= row && row <= 8;
+        assert 0 <= row && row < size();
         Tile[] column = new Tile[size()];
         int i = 0;
         while(i < size()) {
@@ -204,6 +199,7 @@ public class Model extends Observable{
                 break;
             }
         }
+        _gameover = true;
         return result;
     }
 
@@ -240,9 +236,15 @@ public class Model extends Observable{
         return _gameover;
     }
 
-    /** Return the unassigned variables. */
+    /** Return unassigned tiles in this board. */
     List<Tile> unassigned() {
-        return _unassigned;
+        List<Tile> unassigned = new ArrayList<>();
+        for (int i = 0; i < size() * size(); i++) {
+            if (tile(i).value() == 0) {
+                unassigned.add(tile(i));
+            }
+        }
+        return unassigned;
     }
 
     /** Return out format for the section at (COL, ROW). */
@@ -302,6 +304,20 @@ public class Model extends Observable{
         }
         out.format("%nGame is Over?  %s", gameOver());
         return out.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+        Model m = (Model) o;
+        for (int i = 0; i < size() * size(); i++) {
+            if (tile(i).value() != m.tile(i).value()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /** Current contents of the board. */

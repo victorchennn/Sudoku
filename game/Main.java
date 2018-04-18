@@ -1,5 +1,5 @@
 package game;
 
 public class Main {
-    Model model = new Model(9);
+    Model model = new Model();
 }

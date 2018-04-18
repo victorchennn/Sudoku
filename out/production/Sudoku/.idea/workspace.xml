@@ -2,14 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="704e3a9c-1eae-4ab8-a6dd-426b0ecfd83c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Sudoku/game/Game.class" afterPath="$PROJECT_DIR$/out/production/Sudoku/game/Game.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Sudoku/game/Model.class" afterPath="$PROJECT_DIR$/out/production/Sudoku/game/Model.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Sudoku/game/UnitTest.class" afterPath="$PROJECT_DIR$/out/production/Sudoku/game/UnitTest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/game/Game.java" afterPath="$PROJECT_DIR$/game/Game.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/game/Model.java" afterPath="$PROJECT_DIR$/game/Model.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/game/UnitTest.java" afterPath="$PROJECT_DIR$/game/UnitTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Sudoku/.idea/workspace.xml" afterPath="$PROJECT_DIR$/out/production/Sudoku/.idea/workspace.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -32,8 +26,8 @@
       <file leaf-file-name="Model.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/game/Model.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1320">
-              <caret line="92" column="20" lean-forward="false" selection-start-line="92" selection-start-column="20" selection-end-line="92" selection-end-column="20" />
+            <state relative-caret-position="477">
+              <caret line="100" column="30" lean-forward="true" selection-start-line="100" selection-start-column="30" selection-end-line="100" selection-end-column="30" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -44,8 +38,8 @@
       <file leaf-file-name="Tile.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/game/Tile.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="40" column="40" lean-forward="false" selection-start-line="40" selection-start-column="40" selection-end-line="40" selection-end-column="40" />
+            <state relative-caret-position="555">
+              <caret line="47" column="5" lean-forward="false" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -54,8 +48,8 @@
       <file leaf-file-name="Game.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/game/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="55" lean-forward="false" selection-start-line="14" selection-start-column="55" selection-end-line="14" selection-end-column="55" />
+            <state relative-caret-position="240">
+              <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -64,8 +58,8 @@
       <file leaf-file-name="UnitTest.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/game/UnitTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
-              <caret line="108" column="5" lean-forward="true" selection-start-line="108" selection-start-column="5" selection-end-line="108" selection-end-column="5" />
+            <state relative-caret-position="144">
+              <caret line="115" column="5" lean-forward="true" selection-start-line="115" selection-start-column="5" selection-end-line="115" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -107,14 +101,14 @@
         <option value="$PROJECT_DIR$/game/Main.java" />
         <option value="$PROJECT_DIR$/game/InputSource.java" />
         <option value="$PROJECT_DIR$/game/Input.java" />
-        <option value="$PROJECT_DIR$/game/Tile.java" />
         <option value="$PROJECT_DIR$/game/Game.java" />
+        <option value="$PROJECT_DIR$/game/Tile.java" />
         <option value="$PROJECT_DIR$/game/Model.java" />
         <option value="$PROJECT_DIR$/game/UnitTest.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="575" />
     <option name="y" value="23" />
     <option name="width" value="1680" />
@@ -138,9 +132,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -157,7 +148,10 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -415,24 +409,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="UnitTest_test_complete - 2018.04.15 at 19h 05m 36s.xml">
-      <configuration name="UnitTest.test_complete" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="UnitTest_test_complete - 2018.04.15 at 19h 05m 57s.xml">
-      <configuration name="UnitTest.test_complete" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="UnitTest_test_complete - 2018.04.15 at 19h 57m 17s.xml">
-      <configuration name="UnitTest.test_complete" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="UnitTest_test_complete - 2018.04.15 at 19h 57m 52s.xml">
-      <configuration name="UnitTest.test_complete" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="UnitTest_test_generate_Full - 2018.04.16 at 15h 48m 50s.xml">
-      <configuration name="UnitTest.test_generate_Full" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="UnitTest_test_generate_Full - 2018.04.16 at 15h 49m 00s.xml">
-      <configuration name="UnitTest.test_generate_Full" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="UnitTest_test_generate_Full - 2018.04.16 at 15h 49m 04s.xml">
       <configuration name="UnitTest.test_generate_Full" configurationId="JUnit" />
     </history-entry>
@@ -445,9 +421,27 @@
     <history-entry file="UnitTest_test_generate_Full - 2018.04.16 at 15h 50m 10s.xml">
       <configuration name="UnitTest.test_generate_Full" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="UnitTest_test_solver - 2018.04.17 at 01h 08m 56s.xml">
+      <configuration name="UnitTest.test_solver" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="UnitTest_test_solver - 2018.04.17 at 01h 12m 36s.xml">
+      <configuration name="UnitTest.test_solver" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="UnitTest_test_solver - 2018.04.17 at 01h 14m 05s.xml">
+      <configuration name="UnitTest.test_solver" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="UnitTest_test_solver - 2018.04.17 at 01h 14m 19s.xml">
+      <configuration name="UnitTest.test_solver" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="UnitTest_test_solver - 2018.04.17 at 01h 14m 31s.xml">
+      <configuration name="UnitTest.test_solver" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="UnitTest_test_solver - 2018.04.17 at 01h 16m 24s.xml">
+      <configuration name="UnitTest.test_solver" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="575" y="23" width="1680" height="948" extended-state="0" />
+    <frame x="0" y="23" width="1680" height="948" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -516,7 +510,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="57" />
+      <option name="time" value="59" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -871,24 +865,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/game/Tile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="40" column="40" lean-forward="false" selection-start-line="40" selection-start-column="40" selection-end-line="40" selection-end-column="40" />
+        <state relative-caret-position="555">
+          <caret line="47" column="5" lean-forward="false" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/game/Game.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="55" lean-forward="false" selection-start-line="14" selection-start-column="55" selection-end-line="14" selection-end-column="55" />
+        <state relative-caret-position="240">
+          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/game/Model.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1320">
-          <caret line="92" column="20" lean-forward="false" selection-start-line="92" selection-start-column="20" selection-end-line="92" selection-end-column="20" />
+        <state relative-caret-position="477">
+          <caret line="100" column="30" lean-forward="true" selection-start-line="100" selection-start-column="30" selection-end-line="100" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -897,8 +891,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/game/UnitTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="108" column="5" lean-forward="true" selection-start-line="108" selection-start-column="5" selection-end-line="108" selection-end-column="5" />
+        <state relative-caret-position="144">
+          <caret line="115" column="5" lean-forward="true" selection-start-line="115" selection-start-column="5" selection-end-line="115" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

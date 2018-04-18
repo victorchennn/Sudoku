@@ -3,6 +3,7 @@ package game;
 import org.junit.Test;
 import java.util.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class UnitTest {
     /**
@@ -97,10 +98,10 @@ public class UnitTest {
 
     @Test
     public void test_generate_Full() {
-        Model m = new Model(9);
-        System.out.println(m.generateFull(m, m.unassigned()));
+        Model m = new Model();
+        System.out.println(m.generateFull());
         for (int i = 0; i < 10; i++) {
-            Model temp = m.generateFull(m, m.unassigned());
+            Model temp = m.generateFull();
             assertEquals(temp.complete(), true);
             assertEquals(temp.tile(16), temp.tile(7,1));
             assertEquals(temp.tile(30), temp.tile(3,3));
@@ -111,8 +112,13 @@ public class UnitTest {
     @Test
     public void test_solver(){
         Model m1 = get_exmp1_init();
-        System.out.println(m1);
-        System.out.println(m1.tile(6));
+        Model m1_completed = get_exmp1();
+        Model m4 = get_exmp4_init();
+        Model m4_completed = get_exmp4();
+        assertEquals(m1.sudoku_solver(), m1_completed);
+        assertEquals(m4.sudoku_solver(), m4_completed);
+
+
     }
     @Test
     public void test_generate_Complete() {
@@ -132,7 +138,7 @@ public class UnitTest {
                 {6,7,2,1,9,5,3,4,8},
                 {5,3,4,6,7,8,9,1,2},
         };
-        Model m = new Model(9);
+        Model m = new Model();
         for (int r = 0; r < m.size(); r++) {
             for (int c = 0; c < m.size(); c++) {
                 m.addTile(Tile.create(ex[r][c], c, r));
@@ -154,7 +160,7 @@ public class UnitTest {
                 {6,0,0,1,9,5,0,0,0},
                 {5,3,0,0,7,0,0,0,0},
         };
-        Model m = new Model(9);
+        Model m = new Model();
         for (int r = 0; r < m.size(); r++) {
             for (int c = 0; c < m.size(); c++) {
                 m.addTile(Tile.create(ex[r][c], c, r));
@@ -176,7 +182,7 @@ public class UnitTest {
                 {6,7,2,1,9,5,3,4,8},
                 {5,3,4,5,7,8,9,1,0},
         };
-        Model m = new Model(9);
+        Model m = new Model();
         for (int r = 0; r < m.size(); r++) {
             for (int c = 0; c < m.size(); c++) {
                 m.addTile(Tile.create(ex[r][c], c, r));
@@ -198,7 +204,7 @@ public class UnitTest {
                 {8,4,5,3,6,2,7,9,1},
                 {6,2,9,1,7,8,4,3,5},
         };
-        Model m = new Model(9);
+        Model m = new Model();
         for (int r = 0; r < m.size(); r++) {
             for (int c = 0; c < m.size(); c++) {
                 m.addTile(Tile.create(ex[r][c], c, r));
@@ -207,4 +213,47 @@ public class UnitTest {
         return m;
     }
 
+    /** Example4, initialized. */
+    private Model get_exmp4_init() {
+        int[][] ex = {
+                {0,1,0,9,0,7,0,6,0},
+                {2,0,0,8,0,4,0,0,7},
+                {0,9,0,0,3,0,0,8,0},
+                {0,0,2,0,0,0,7,0,0},
+                {5,4,0,0,0,0,0,1,9},
+                {0,0,1,0,0,0,6,0,0},
+                {0,3,0,0,6,0,0,7,0},
+                {8,0,0,2,0,3,0,0,6},
+                {0,2,0,5,0,1,0,9,0},
+        };
+        Model m = new Model();
+        for (int r = 0; r < m.size(); r++) {
+            for (int c = 0; c < m.size(); c++) {
+                m.addTile(Tile.create(ex[r][c], c, r));
+            }
+        }
+        return m;
+    }
+
+    /** Example4, completed. */
+    private Model get_exmp4() {
+        int[][] ex = {
+                {3,1,8,9,5,7,4,6,2},
+                {2,6,5,8,1,4,9,3,7},
+                {7,9,4,6,3,2,5,8,1},
+                {6,8,2,1,4,9,7,5,3},
+                {5,4,3,7,2,6,8,1,9},
+                {9,7,1,3,8,5,6,2,4},
+                {1,3,9,4,6,8,2,7,5},
+                {8,5,7,2,9,3,1,4,6},
+                {4,2,6,5,7,1,3,9,8},
+        };
+        Model m = new Model();
+        for (int r = 0; r < m.size(); r++) {
+            for (int c = 0; c < m.size(); c++) {
+                m.addTile(Tile.create(ex[r][c], c, r));
+            }
+        }
+        return m;
+    }
 }
