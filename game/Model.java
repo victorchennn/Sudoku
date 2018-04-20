@@ -1,7 +1,6 @@
 package game;
 
 import org.apache.commons.lang3.ArrayUtils;
-
 import java.util.*;
 
 public class Model extends Observable{
@@ -13,25 +12,35 @@ public class Model extends Observable{
 
     /** A copy of Model m. */
     Model(Model m) {
-
+        copy(m);
     }
 
     /** Clear the board to empty. */
     void clear() {
         _board = new Tile[9][9];
         _gameover = false;
-        _unassigned = new ArrayList<>();
         for (int r = 0; r < size(); r++) {
             for (int c = 0; c < size(); c++) {
                 Tile t = Tile.create(0, c, r);
                 _board[c][r] = t;
-                _unassigned.add(t);
             }
         }
         setChanged();
         notifyObservers();
     }
 
+    void copy(Model m) {
+        _board = new Tile[9][9];
+        _gameover = m._gameover;
+        for (int r = 0; r < size(); r++) {
+            for (int c = 0; c < size(); c++) {
+                Tile t = Tile.create(m.tile(c,  r).value(), c, r);
+                _board[c][r] = t;
+            }
+        }
+        setChanged();
+        notifyObservers();
+    }
 
     /** Add TILE to the board. There must be no Tile currently at the
      *  same position. */
@@ -64,7 +73,7 @@ public class Model extends Observable{
         if (complete()) {
             return this;
         }
-        List<Tile> unassigned = unassigned();
+        List<Tile> unassigned = tiles(false);
         Random ran = new Random();
         Tile t = unassigned.get(0);
         assert t.value() == 0;
@@ -138,8 +147,8 @@ public class Model extends Observable{
         return section;
     }
 
-    /** Use index to return section, numbered from left to right,
-     * bottom to right. */
+    /** Use index to return the section, numbered from left to right,
+     * bottom to top. */
     Tile[] sec(int index) {
         assert 0 <= index && index < 9;
         switch (index) {
@@ -236,15 +245,18 @@ public class Model extends Observable{
         return _gameover;
     }
 
-    /** Return unassigned tiles in this board. */
-    List<Tile> unassigned() {
+    /** Return a list of assigned or unassigned tiles in this board. */
+    List<Tile> tiles(boolean assign) {
+        List<Tile> assigned = new ArrayList<>();
         List<Tile> unassigned = new ArrayList<>();
         for (int i = 0; i < size() * size(); i++) {
             if (tile(i).value() == 0) {
                 unassigned.add(tile(i));
+            } else {
+                assigned.add(tile(i));
             }
         }
-        return unassigned;
+        return assign? assigned:unassigned;
     }
 
     /** Return out format for the section at (COL, ROW). */
@@ -325,7 +337,4 @@ public class Model extends Observable{
 
     /** True iff game is ended. */
     private boolean _gameover;
-
-    /** Store the unassigned tiles. */
-    private List<Tile> _unassigned;
 }

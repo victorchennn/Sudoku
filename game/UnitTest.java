@@ -3,7 +3,6 @@ package game;
 import org.junit.Test;
 import java.util.*;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 public class UnitTest {
     /**
@@ -115,14 +114,26 @@ public class UnitTest {
         Model m1_completed = get_exmp1();
         Model m4 = get_exmp4_init();
         Model m4_completed = get_exmp4();
-        assertEquals(m1.sudoku_solver(), m1_completed);
-        assertEquals(m4.sudoku_solver(), m4_completed);
-
-
+        assertEquals(false, m1.equals(m1_completed));
+        assertEquals(false, m4.equals(m4_completed));
+        m1.sudoku_solver();
+        m4.sudoku_solver();
+        assertEquals(true, m1.equals(m1_completed));
+        assertEquals(true, m1.equals(m1_completed));
     }
-    @Test
-    public void test_generate_Complete() {
 
+
+    @Test
+    public void test_generate_Complete(){
+//        Model m = new Model();
+//        Model mc = new Model(m);
+//        mc.addTile(Tile.create(2,0,0));
+//        System.out.println(m);
+//        System.out.println(mc);
+        Model m1 = get_exmp1_init();
+        Model m1_completed = get_exmp1();
+        m1.sudoku_solver();
+        System.out.println(m1);
     }
 
     /** Example1, completed. */
