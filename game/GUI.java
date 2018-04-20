@@ -13,13 +13,13 @@ public class GUI extends TopLevel implements Observer {
         _model = model;
         _model.addObserver(this);
 
-        _widget = new Widget(model.size());
+        _widget = new Widget(model);
         add(_widget, new LayoutSpec("y", 0,
                 "height", "REMAINDER",
                 "width", "REMAINDER"));
 
         addMenuButton("Game->New", this::newGame);
-        addMenuButton("Game->New", this::quit);
+        addMenuButton("Game->Quit", this::quit);
 
     }
 
@@ -35,6 +35,7 @@ public class GUI extends TopLevel implements Observer {
     public void update(Observable model, Object arg) {
 
     }
+
 
     /** The board widget. */
     private Widget _widget;
