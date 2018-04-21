@@ -13,18 +13,22 @@ public class Widget extends Pad{
         _boardSide = model.size() * TILE_SIDE_SEP + TILE_SEP_1;
         _tiles = new ArrayList<>();
         for (int i = 0; i < _size * _size; i++) {
-            _tiles.add(model.tile(i));
+            _tiles.add(0, model.tile(i));
         }
         setPreferredSize(_boardSide, _boardSide);
     }
 
-    /** Add the value of tiles to the board. */
+    /** Add the value of tile TILE to the board. */
     private void draw_tile(Graphics2D g, Tile tile) {
         int col = tile.col();
         int row = tile.row();
+        int adjust = 16;
         g.setFont(TILE_FONT);
         String number = Integer.toString(tile.value());
-        g.drawString(number, 52, 52);
+
+        int x_position = adjust + col * TILE_SIDE_SEP;
+        int y_position = _boardSide - row * TILE_SIDE_SEP - adjust;
+        g.drawString(number, x_position, y_position);
     }
 
     @Override
@@ -49,24 +53,21 @@ public class Widget extends Pad{
     }
 
 
-    /** Width of board the grid lines. */
+    /** Width of board and grid lines. */
     static final int
         TILE_SEP_1 = 2,
         TILE_SEP_2 = 5,
         TILE_SIDE = 50,
         TILE_SIDE_SEP = TILE_SEP_1 + TILE_SIDE;
 
-    /** Color of board, grid lines and number. */
+    /** Color of board, grid lines and values. */
     static final Color
         EMPTY_SQUARE_COLOR = new Color(255, 255, 255),
         BAR_COLOR = new Color(140, 140, 140),
         FONT_COLOR = new Color(0,0,0);
 
-    /** Number style. */
-    static final int style = Font.BOLD | Font.ITALIC;
-
     /** Font of number. */
-    static final Font TILE_FONT = new Font("Number", style, 30);
+    static final Font TILE_FONT = new Font("Number", Font.ITALIC, 30);
 
     /** The size of board row or column. */
     private final int _size;

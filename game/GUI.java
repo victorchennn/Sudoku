@@ -21,6 +21,10 @@ public class GUI extends TopLevel implements Observer {
         addMenuButton("Game->New", this::newGame);
         addMenuButton("Game->Quit", this::quit);
 
+        _widget.requestFocusInWindow();
+
+
+
     }
 
     public void newGame(String s) {
