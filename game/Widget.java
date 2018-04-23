@@ -52,6 +52,14 @@ public class Widget extends Pad{
         }
     }
 
+    synchronized void update(Model model) {
+        _tiles = new ArrayList<>();
+        for (int i = 0; i < _size * _size; i++) {
+            _tiles.add(0, model.tile(i));
+        }
+        repaint();
+    }
+
 
     /** Width of board and grid lines. */
     static final int

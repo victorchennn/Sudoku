@@ -1,9 +1,15 @@
 package game;
 
-public interface Input {
+public class Input {
 
-    /** Returns one command string. */
-    String getKey();
+    Input(GUI gui) {
+        _gui = gui;
+    }
 
+    public String getKey() {
+        return _gui.readKey();
+    }
 
+    /** Input source. */
+    private GUI _gui;
 }

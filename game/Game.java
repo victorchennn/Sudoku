@@ -14,7 +14,15 @@ public class Game {
         _model.clear();
         _model.generateFull();
         while (_playing) {
+            String command = _input.getKey();
+            switch (command) {
+                case "Quit":
+                    _playing = false;
+                    return;
+                case "New":
+                    return;
 
+            }
         }
     }
 
