@@ -14,6 +14,7 @@ public class Game {
         _model.clear();
         _model.generateFull();
         while (_playing) {
+            _model.notifyObservers();
             String command = _input.getKey();
             switch (command) {
                 case "Quit":
@@ -32,7 +33,7 @@ public class Game {
     }
 
     /** The playing board. */
-    private Model _model;
+    public Model _model;
 
     /** Input source from standard input. */
     private Input _input;
