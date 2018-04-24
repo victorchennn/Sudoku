@@ -26,7 +26,6 @@ public class Model extends Observable{
             }
         }
         setChanged();
-        notifyObservers();
     }
 
     void copy(Model m) {
@@ -39,7 +38,6 @@ public class Model extends Observable{
             }
         }
         setChanged();
-        notifyObservers();
     }
 
     /** Add TILE to the board. There must be no Tile currently at the
@@ -60,6 +58,7 @@ public class Model extends Observable{
 
     /** Generate a new random sudoku board with full values. */
     Model generateFull() {
+        setChanged();
         return sudoku_solver();
     }
 

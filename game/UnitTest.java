@@ -134,6 +134,7 @@ public class UnitTest {
         Model m1_completed = get_exmp1();
         m1.sudoku_solver();
         System.out.println(m1);
+
     }
 
 

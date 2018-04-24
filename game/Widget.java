@@ -8,13 +8,10 @@ import java.util.ArrayList;
 public class Widget extends Pad{
 
     /** A graphical representation of game Sudoku with model MODEL. */
-    public Widget(Model model) {
-        _size = model.size();
-        _boardSide = model.size() * TILE_SIDE_SEP + TILE_SEP_1;
+    public Widget(int size) {
+        _size = size;
+        _boardSide = size * TILE_SIDE_SEP + TILE_SEP_1;
         _tiles = new ArrayList<>();
-        for (int i = 0; i < _size * _size; i++) {
-            _tiles.add(0, model.tile(i));
-        }
         setPreferredSize(_boardSide, _boardSide);
     }
 

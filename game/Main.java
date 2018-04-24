@@ -13,6 +13,7 @@ public class Main {
         Game game = new Game(m, (Input) inp);
         while (game.playing()) {
             game.playGame();
+
         }
         System.exit(0);
     }

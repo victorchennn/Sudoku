@@ -14,19 +14,18 @@ public class GUI extends TopLevel implements Observer {
         super(title, true);
         _model = model;
         _model.addObserver(this);
-
-        _widget = new Widget(model);
-        add(_widget, new LayoutSpec("y", 0,
-                "height", "REMAINDER",
-                "width", "REMAINDER"));
-
+        _widget = new Widget(model.size());
 
         addMenuButton("Game->New", this::newGame);
         addMenuButton("Game->Quit", this::quit);
 
+        add(_widget, new LayoutSpec("y", 0,
+                "height", "REMAINDER",
+                "width", "REMAINDER"));
+
         _widget.requestFocusInWindow();
         _widget.setKeyHandler("keypress", this::keyPressed);
-
+        setPreferredFocus(_widget);
 
     }
 
