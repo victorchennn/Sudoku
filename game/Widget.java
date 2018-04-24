@@ -2,7 +2,9 @@ package game;
 
 import ucb.gui2.Pad;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Font;
+import java.awt.Color;
 import java.util.ArrayList;
 
 public class Widget extends Pad{
@@ -12,7 +14,7 @@ public class Widget extends Pad{
         _size = size;
         _boardSide = size * TILE_SIDE_SEP + TILE_SEP_1;
         _tiles = new ArrayList<>();
-        setPreferredSize(_boardSide, _boardSide);
+        setPreferredSize(_boardSide + 100, _boardSide);
     }
 
     /** Add the value of tile TILE to the board. */
@@ -31,7 +33,7 @@ public class Widget extends Pad{
     @Override
     public synchronized void paintComponent(Graphics2D g) {
         g.setColor(EMPTY_SQUARE_COLOR);
-        g.fillRect(0,0,_boardSide, _boardSide);
+        g.fillRect(0,0, _boardSide, _boardSide);
         g.setColor(BAR_COLOR);
         for (int k = 0, t = 0; k <= _boardSide; k += TILE_SIDE_SEP, t++) {
             g.fillRect(0, k, _boardSide, TILE_SEP_1);

@@ -4,6 +4,7 @@ import ucb.gui2.LayoutSpec;
 import ucb.gui2.TopLevel;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -25,8 +26,16 @@ public class GUI extends TopLevel implements Observer {
 
         _widget.requestFocusInWindow();
         _widget.setKeyHandler("keypress", this::keyPressed);
+        _widget.setMouseHandler("click", this::mouseClicked);
         setPreferredFocus(_widget);
 
+    }
+
+    /** Respond to the mouse-clicking event. */
+    public void mouseClicked(String s, MouseEvent e) {
+        int x = e.getX(), y = e.getY();
+//        System.out.println(x);
+//        System.out.println(y);
     }
 
     /** Respond to the key press by queuing it to the queue. */
