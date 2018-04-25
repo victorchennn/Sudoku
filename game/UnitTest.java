@@ -125,15 +125,6 @@ public class UnitTest {
 
     @Test
     public void test_generate_Complete(){
-//        Model m = new Model();
-//        Model mc = new Model(m);
-//        mc.addTile(Tile.create(2,0,0));
-//        System.out.println(m);
-//        System.out.println(mc);
-        Model m1 = get_exmp1_init();
-        Model m1_completed = get_exmp1();
-        m1.sudoku_solver();
-        System.out.println(m1);
 
     }
 

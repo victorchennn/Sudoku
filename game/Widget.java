@@ -14,7 +14,7 @@ public class Widget extends Pad{
         _size = size;
         _boardSide = size * TILE_SIDE_SEP + TILE_SEP_1;
         _tiles = new ArrayList<>();
-        setPreferredSize(_boardSide + TILE_SIDE * 2, _boardSide);
+        setPreferredSize(_boardSide + TILE_SIDE + TILE_SIDE_SEP, _boardSide);
     }
 
     /** Add the value of tile TILE to the board. */
@@ -33,31 +33,44 @@ public class Widget extends Pad{
     public synchronized void paintComponent(Graphics2D g) {
         g.setColor(EMPTY_SQUARE_COLOR);
         g.fillRect(0,0, _boardSide, _boardSide);
-        g.fillRect(_boardSide + TILE_SIDE, 0, TILE_SIDE, _boardSide);
         g.setColor(BAR_COLOR);
         for (int k = 0, t = 0; k <= _boardSide; k += TILE_SIDE_SEP, t++) {
             g.fillRect(0, k, _boardSide, TILE_SEP_1);
             g.fillRect(k, 0, TILE_SEP_1, _boardSide);
-            g.fillRect(_boardSide + TILE_SIDE, k, TILE_SIDE, TILE_SEP_1);
             if (t == 3 || t == 6) {
                 g.fillRect(0, k, _boardSide, TILE_SEP_2);
                 g.fillRect(k, 0, TILE_SEP_2, _boardSide);
-                g.fillRect(_boardSide + TILE_SIDE, k, TILE_SIDE, TILE_SEP_2);
             }
         }
-        g.fillRect(_boardSide + TILE_SIDE, 0, TILE_SEP_1, _boardSide);
-        g.setColor(FONT_COLOR_1);
         for (Tile t : _tiles) {
+            g.setColor(FONT_COLOR_1);
             if (t.value() != 0) {
                 draw_tile(g, t);
             }
         }
-        for (int i = 0; i < _size; i++) {
-            g.setColor(FONT_COLOR_2);
-            String number = Integer.toString(i + 1);
-            int x_position = ADJUST + _boardSide + TILE_SIDE;
-            int y_position = i * TILE_SIDE_SEP + TILE_SIDE - ADJUST + TILE_SEP_2;
-            g.drawString(number, x_position, y_position);
+        if (no_value) {
+            g.setColor(EMPTY_SQUARE_COLOR);
+            g.fillRect(_boardSide + TILE_SIDE, 0, TILE_SIDE, _boardSide);
+            g.setColor(BAR_COLOR);
+            g.fillRect(_boardSide + TILE_SIDE, 0, TILE_SEP_1, _boardSide);
+            g.fillRect(_boardSide + TILE_SIDE * 2, 0, TILE_SEP_1, _boardSide);
+            for (int k = 0, t = 0; k <= _boardSide; k += TILE_SIDE_SEP, t++) {
+                g.fillRect(_boardSide + TILE_SIDE, k, TILE_SIDE, TILE_SEP_1);
+                if (t == 3 || t == 6) {
+                    g.fillRect(_boardSide + TILE_SIDE, k, TILE_SIDE, TILE_SEP_2);
+                }
+            }
+            for (int i = 0; i < _size; i++) {
+                g.setColor(FONT_COLOR_2);
+                String number = Integer.toString(i + 1);
+                int x_position = ADJUST + _boardSide + TILE_SIDE;
+                int y_position = i * TILE_SIDE_SEP + TILE_SIDE - ADJUST + TILE_SEP_2;
+                g.drawString(number, x_position, y_position);
+            }
+
+        }
+        if (_end) {
+
         }
     }
 
@@ -69,6 +82,14 @@ public class Widget extends Pad{
         repaint();
     }
 
+    /** Wait for one tick (TICK milliseconds). */
+    private void tick() {
+        try {
+            wait(TICK);
+        } catch (InterruptedException excp) {
+            assert false : "Internal error: unexpected interrupt";
+        }
+    }
 
     /** Width of board and grid lines. */
     static final int
@@ -76,6 +97,7 @@ public class Widget extends Pad{
         TILE_SEP_1 = 2,
         TILE_SEP_2 = 5,
         TILE_SIDE = 50,
+        DIFF = TILE_SEP_2 - TILE_SEP_1,
         TILE_SIDE_SEP = TILE_SEP_1 + TILE_SIDE;
 
     /** Color of board, grid lines and values. */
@@ -84,6 +106,9 @@ public class Widget extends Pad{
         BAR_COLOR = new Color(140, 140, 140),
         FONT_COLOR_1 = new Color(0,0,0),
         FONT_COLOR_2 = new Color(0, 204, 255);
+
+    /** Wait between animation steps (in milliseconds). */
+    static final int TICK = 40;
 
     /** Font of number. */
     static final Font TILE_FONT = new Font("Number", Font.ITALIC, 30);
@@ -96,4 +121,10 @@ public class Widget extends Pad{
 
     /** A list of Tiles currently being displayed. */
     private ArrayList<Tile> _tiles;
+
+    /** True iff "GAME OVER" message is being displayed. */
+    private boolean _end;
+
+    /** True iff there is no value in this tile. */
+    public boolean no_value;
 }

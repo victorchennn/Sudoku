@@ -13,6 +13,10 @@ public class Game {
     void playGame() {
         _model.clear();
         _model.generateFull();
+        _model.deleteTile(2,2);
+        _model.deleteTile(4,5);
+        _model.deleteTile(6,6);
+        _model.deleteTile(2,3);
         while (_playing) {
             _model.notifyObservers();
             String command = _input.getKey();

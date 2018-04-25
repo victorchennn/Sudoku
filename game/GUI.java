@@ -33,9 +33,28 @@ public class GUI extends TopLevel implements Observer {
 
     /** Respond to the mouse-clicking event. */
     public void mouseClicked(String s, MouseEvent e) {
+        _widget.no_value = false;
         int x = e.getX(), y = e.getY();
-//        System.out.println(x);
-//        System.out.println(y);
+        if (x <= SIZE) {
+            int col = x / SEP;
+            int row = _model.size() - y / SEP - 1;
+            col = (col == 9 ? col - 1 : col);
+            row = (row == 9 ? row - 1 : row);
+            int value = _model.tile(col, row).value();
+            if (value == 0) {
+                _col = col;
+                _row = row;
+                _widget.no_value = true;
+            }
+            _widget.repaint();
+        }
+        if (x >= SIZE + TILE) {
+            int value = y / SEP + 1;
+            value = (value == 10 ? value - 1 : value);
+            _model.addTile(Tile.create(value, _col, _row));
+            _widget.no_value = true;
+            _widget.update(_model);
+        }
     }
 
     /** Respond to the key press by queuing it to the queue. */
@@ -69,11 +88,20 @@ public class GUI extends TopLevel implements Observer {
         _widget.update(_model);
     }
 
+    static final int
+        TILE = 50,
+        SEP = 52,
+        SIZE = 470;
 
     /** The board widget. */
     private Widget _widget;
+
     /** The game model being viewed. */
     private Model _model;
+
+    private int _col;
+
+    private int _row;
 
     /** Queue of pending key presses. */
     private ArrayBlockingQueue<String> _pendingKeys =
