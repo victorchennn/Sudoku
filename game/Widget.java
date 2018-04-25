@@ -21,7 +21,11 @@ public class Widget extends Pad{
     private void draw_tile(Graphics2D g, Tile tile) {
         int col = tile.col();
         int row = tile.row();
-        g.setFont(TILE_FONT);
+        if (tile.exist()) {
+            g.setColor(FONT_COLOR_1);
+        } else {
+            g.setColor(FONT_COLOR_2);
+        }
         String number = Integer.toString(tile.value());
 
         int x_position = ADJUST + col * TILE_SIDE_SEP;
@@ -42,8 +46,8 @@ public class Widget extends Pad{
                 g.fillRect(k, 0, TILE_SEP_2, _boardSide);
             }
         }
+        g.setFont(TILE_FONT);
         for (Tile t : _tiles) {
-            g.setColor(FONT_COLOR_1);
             if (t.value() != 0) {
                 draw_tile(g, t);
             }

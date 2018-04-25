@@ -21,6 +21,11 @@ public class Tile {
         _value = value;
     }
 
+    /** Change the exist. **/
+    void changeExist(boolean exist) {
+        _exist = exist;
+    }
+
     /** Return my current row. */
     int row() {
         return _row;
@@ -34,6 +39,11 @@ public class Tile {
     /** Return the value supplied to my constructor. */
     int value() {
         return _value;
+    }
+
+    /** Iff the tile is originally exist. */
+    boolean exist() {
+        return _exist;
     }
 
     @Override
@@ -52,4 +62,6 @@ public class Tile {
 
     /** Position. */
     private final int _row, _col;
+
+    private boolean _exist = true;
 }
