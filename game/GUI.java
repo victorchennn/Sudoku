@@ -18,8 +18,9 @@ public class GUI extends TopLevel implements Observer {
         _widget = new Widget(model.size());
 
         addMenuButton("Game->New", this::newGame);
+        addMenuButton("Game->Resume", this::ResumeGame);
         addMenuButton("Game->Quit", this::quit);
-
+        
         add(_widget, new LayoutSpec("y", 0,
                 "height", "REMAINDER",
                 "width", "REMAINDER"));
@@ -74,6 +75,12 @@ public class GUI extends TopLevel implements Observer {
     /** Response to "New Game" button click. */
     public void newGame(String s) {
         _pendingKeys.offer("New");
+        _widget.requestFocusInWindow();
+    }
+
+    /** Response to "New Game" button click. */
+    public void ResumeGame(String s) {
+        _pendingKeys.offer("Resume");
         _widget.requestFocusInWindow();
     }
 

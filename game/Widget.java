@@ -2,9 +2,7 @@ package game;
 
 import ucb.gui2.Pad;
 
-import java.awt.Graphics2D;
-import java.awt.Font;
-import java.awt.Color;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Widget extends Pad{
@@ -74,6 +72,13 @@ public class Widget extends Pad{
 
         }
         if (_end) {
+            g.setFont(GAME_OVER);
+            FontMetrics metrics = g.getFontMetrics();
+            g.setColor(GAME_OVER_COLOR);
+            g.drawString("GAME OVER",
+                    (_boardSide
+                            - metrics.stringWidth("GAME OVER")) / 2,
+                    (2 * _boardSide + metrics.getMaxAscent()) / 4);
 
         }
     }
@@ -83,7 +88,9 @@ public class Widget extends Pad{
         for (int i = 0; i < _size * _size; i++) {
             _tiles.add(0, model.tile(i));
         }
+        _end = model.complete();
         repaint();
+        tick();
     }
 
     /** Wait for one tick (TICK milliseconds). */
@@ -109,13 +116,17 @@ public class Widget extends Pad{
         EMPTY_SQUARE_COLOR = new Color(255, 255, 255),
         BAR_COLOR = new Color(140, 140, 140),
         FONT_COLOR_1 = new Color(0,0,0),
-        FONT_COLOR_2 = new Color(0, 204, 255);
+        FONT_COLOR_2 = new Color(0, 204, 255),
+        GAME_OVER_COLOR = new Color(200, 0, 0, 64);
 
     /** Wait between animation steps (in milliseconds). */
     static final int TICK = 40;
 
     /** Font of number. */
     static final Font TILE_FONT = new Font("Number", Font.ITALIC, 30);
+
+    /** Font for overlay text on board. */
+    static final Font GAME_OVER = new Font("Game Over", 1, 64);
 
     /** The size of board row or column. */
     private final int _size;
