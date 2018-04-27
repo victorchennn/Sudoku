@@ -1,5 +1,8 @@
 package game;
 
+/** The input/output and GUI controller for play of a game of 2048.
+ *  @author Victor Chen
+ */
 public class Game {
 
     /** Game controller based on the MODEL, using Input as source of key
@@ -10,6 +13,9 @@ public class Game {
         _playing = true;
     }
 
+    /** Clear the board and play one game, until receiving a quit or
+     *  new-game request.  Update the viewer with each added tile or
+     *  change in the board from mouse clicking. */
     void playGame() {
         _model.clear();
         _model.generate();

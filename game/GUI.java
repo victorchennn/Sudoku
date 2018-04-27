@@ -3,7 +3,7 @@ package game;
 import ucb.gui2.LayoutSpec;
 import ucb.gui2.TopLevel;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.time.LocalDateTime;
@@ -12,6 +12,9 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ArrayBlockingQueue;
 
+/** The GUI controller for a Sudoku board and buttons.
+ *  @author Victor Chen
+ */
 public class GUI extends TopLevel implements Observer {
 
     GUI(String title, Model model) {
@@ -99,6 +102,7 @@ public class GUI extends TopLevel implements Observer {
         _widget.requestFocusInWindow();
     }
 
+    /** Set the start game time. */
     private void setTime(LocalDateTime time) {
         DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         setLabel("Time", "Time: " + f.format(time));
@@ -109,6 +113,7 @@ public class GUI extends TopLevel implements Observer {
         _widget.update(_model);
     }
 
+    /** Size and Width. */
     static final int
         TILE = 50,
         SEP = 52,
@@ -120,8 +125,10 @@ public class GUI extends TopLevel implements Observer {
     /** The game model being viewed. */
     private Model _model;
 
+    /** Used to store col of tile be clicked. */
     private int _col;
 
+    /** Used to store row of tile be clicked. */
     private int _row;
 
     /** Queue of pending key presses. */

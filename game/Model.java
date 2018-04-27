@@ -3,9 +3,16 @@ package game;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Observable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Formatter;
 
+/** The state of game Sudoku.
+ *  @author Victor Chen
+ */
 public class Model extends Observable{
 
     /** A new sudoku game on the board. */
@@ -42,10 +49,6 @@ public class Model extends Observable{
             }
         }
         setChanged();
-    }
-
-    LocalDateTime startime() {
-        return _startTime;
     }
 
     /** Add TILE to the board. There must be no Tile currently at the
@@ -266,6 +269,7 @@ public class Model extends Observable{
         return result;
     }
 
+    /** Store the possible values a tile can have. */
     ArrayList<Integer> possnumber(int col, int row) {
         ArrayList<Integer> p = new ArrayList<>();
         for (int i = 1; i <= 9; i++) {
@@ -297,6 +301,11 @@ public class Model extends Observable{
     /** Return true iff the game is over. */
     boolean gameOver() {
         return _gameover;
+    }
+
+    /** Return start time of game. */
+    LocalDateTime startime() {
+        return _startTime;
     }
 
     /** Return a list of assigned or unassigned tiles in this board. */
@@ -371,5 +380,6 @@ public class Model extends Observable{
     /** True iff game is ended. */
     private boolean _gameover;
 
+    /** Local start time. */
     private LocalDateTime _startTime;
 }

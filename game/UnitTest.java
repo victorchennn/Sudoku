@@ -1,9 +1,14 @@
 package game;
 
 import org.junit.Test;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Random;
+import java.util.List;
 import static org.junit.Assert.assertEquals;
 
+/** Provide some unitTests for the different kinds of situations.
+ *  @author Victor Chen
+ */
 public class UnitTest {
     /**
      * Run the JUnit tests in this package. Add xxxTest.class entries to

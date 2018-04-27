@@ -2,9 +2,15 @@ package game;
 
 import ucb.gui2.Pad;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.util.ArrayList;
 
+/** A widget that displays a Sudoku board.
+ *  @author Victor Chen
+ */
 public class Widget extends Pad{
 
     /** A graphical representation of game Sudoku with model MODEL. */

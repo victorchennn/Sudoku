@@ -1,7 +1,10 @@
 package game;
 
-import java.util.*;
+import java.util.Formatter;
 
+/** Represents attributes of a tile on a Sudoku board.
+ *  @author Victor Chen
+ */
 public class Tile {
 
     /** A new tile with VALUE as its value at (ROW, COL). */
@@ -41,7 +44,7 @@ public class Tile {
         return _value;
     }
 
-    /** Iff the tile is originally exist. */
+    /** Return true if my value initially existed. */
     boolean exist() {
         return _exist;
     }
@@ -63,5 +66,6 @@ public class Tile {
     /** Position. */
     private final int _row, _col;
 
+    /** Iff the tile is originally exist. */
     private boolean _exist;
 }
