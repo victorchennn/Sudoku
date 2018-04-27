@@ -9,7 +9,7 @@ Sudoku is mainly a CSP(Constraint satisfaction problem), central point in this g
 
 Here are the screenshots of games:
 
-<img src="https://github.com/victorchennn/Sudoku/blob/master/screenshot1.png" width="350" height="300">              <img src="https://github.com/victorchennn/Sudoku/blob/master/screenshot2.png" width="350" height="300">
+<img src="https://github.com/victorchennn/Sudoku/blob/master/screenshot_1.png" width="350" height="300">              <img src="https://github.com/victorchennn/Sudoku/blob/master/screenshot_2.png" width="350" height="300">
 
 
 
