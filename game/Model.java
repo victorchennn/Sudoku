@@ -42,9 +42,12 @@ public class Model extends Observable{
 
     /** Add TILE to the board. There must be no Tile currently at the
      *  same position. */
-    void addTile(Tile tile) {
+    void addTile(Tile tile, boolean playing) {
         assert _board[tile.col()][tile.row()].value() == 0;
         _board[tile.col()][tile.row()].changeValue(tile.value());
+        if (!playing) {
+            _board[tile.col()][tile.row()].changeExist(true);
+        }
         setChanged();
     }
 
@@ -53,21 +56,42 @@ public class Model extends Observable{
     void deleteTile(int col, int row) {
         assert _board[col][row].value() != 0;
         _board[col][row].changeValue(0);
+        _board[col][row].changeExist(false);
         setChanged();
     }
 
     /** Generate a new random sudoku board with full values. */
-    Model generateFull() {
+    Model generate() {
         setChanged();
-        return sudoku_solver();
+        return generateComplete();
     }
 
-    /** Randomly delete some tiles with value and generate a complete sudoku
+    /** Randomly delete some tiles with value and generate a completed sudoku
      * board with a unique solution. */
-    void generateComplete() {
-
+    Model generateComplete() {
+        sudoku_solver();
+        Random ran = new Random();
+        List<Tile> assigned = tiles(true);
+        for (int t = 81; t > 27; t--) {
+            int i = ran.nextInt(assigned.size());
+            int col = assigned.get(i).col();
+            int row = assigned.get(i).row();
+            deleteTile(col, row);
+            assigned.remove(i);
+        }
+        while (true) {
+            Object[] o = check_unique();
+            if (!(Boolean)o[0]) {
+                int index = (Integer)o[1];
+                addTile(Tile.create((Integer)o[2], index%9, index/9), false);
+            } else {
+                break;
+            }
+        }
+        return this;
     }
 
+    /** A Sudoku solver. */
     Model sudoku_solver() {
         if (complete()) {
             return this;
@@ -82,7 +106,7 @@ public class Model extends Observable{
             if (!ArrayUtils.contains(convertToArray(row(t.row())), i) &&
                     !ArrayUtils.contains(convertToArray(col(t.col())), i) &&
                     !ArrayUtils.contains(convertToArray(sec(t.col(), t.row())), i)) {
-                addTile(Tile.create(i, t.col(), t.row()));
+                addTile(Tile.create(i, t.col(), t.row()), false);
                 unassigned.remove(t);
                 Model model = sudoku_solver();
                 if (model.complete()) {
@@ -94,6 +118,29 @@ public class Model extends Observable{
             unassigned.add(0, t);
         }
         return this;
+    }
+
+    /** Check the board has a unique solution or not, record and return
+     * the index and value of the first different tile if not, from left
+     * to right, bottom to top. */
+    Object[] check_unique() {
+        Object[] o = new Object[3];
+        o[0] = true;
+        for (int t = 0; t < 10; t++) {
+            Model temp_1 = new Model(this);
+            Model temp_2 = new Model(this);
+            Model t1 = temp_1.sudoku_solver();
+            Model t2 = temp_2.sudoku_solver();
+            for (int i = 0; i < size() * size(); i++) {
+                if (t1.tile(i).value() != t2.tile(i).value()) {
+                    o[0] = false;
+                    o[1] = i;
+                    o[2] = t1.tile(i).value();
+                    return o;
+                }
+            }
+        }
+        return o;
     }
 
     /** Return the current Tile at (COL, ROW), where 0 <= ROW < size(),
@@ -256,27 +303,6 @@ public class Model extends Observable{
             }
         }
         return assign? assigned:unassigned;
-    }
-
-    /** Return out format for the section at (COL, ROW). */
-    public String printsection(int col, int row) {
-        Formatter out = new Formatter();
-        for (int r = (row / 3 ) * 3 + 2; r >= (row / 3 ) * 3; r--) {
-            out.format("%d|", r);
-            for (int c = (col / 3 ) * 3; c < (col / 3 ) * 3 + 3; c++) {
-                if (tile(c, r).value() == 0) {
-                    out.format("   ");
-                } else {
-                    out.format(" %2d", _board[c][r].value());
-                }
-            }
-            out.format(" %n");
-        }
-        out.format("  ");
-        for (int c = (col / 3 ) * 3; c < (col / 3 ) * 3 + 3; c++) {
-            out.format(" %2d", c);
-        }
-        return out.toString();
     }
 
     @Override
