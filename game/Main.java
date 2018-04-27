@@ -1,6 +1,6 @@
 package game;
 
-/** Start game!
+/** Start game Sudoku!
  *  @author Victor Chen
  */
 public class Main {

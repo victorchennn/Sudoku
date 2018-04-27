@@ -1,6 +1,6 @@
 package game;
 
-/** The input/output and GUI controller for play of a game of 2048.
+/** The input/output and GUI controller for play of game Sudoku.
  *  @author Victor Chen
  */
 public class Game {
