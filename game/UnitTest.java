@@ -58,12 +58,12 @@ public class UnitTest {
         assertEquals(Arrays.equals(c0_cg2, m.convertToArray(m.col(0))), true);
         assertEquals(Arrays.equals(r0_cg2, m.convertToArray(m.row(0))), true);
 
-        m.addTile(Tile.create(1,0, 6));
-        m.addTile(Tile.create(9,8, 0));
+        m.addTile(Tile.create(1,0, 6), false);
+        m.addTile(Tile.create(9,8, 0), false);
         assertEquals(Arrays.equals(c0_cg1, m.convertToArray(m.col(0))), true);
         assertEquals(Arrays.equals(r0_cg1, m.convertToArray(m.row(0))), true);
 
-        m.addTile(Tile.create(3,0, 0));
+        m.addTile(Tile.create(3,0, 0), false);
         assertEquals(m.tile(0,0).value(), 3);
         assertEquals(Arrays.equals(c0, m.convertToArray(m.col(0))), true);
         assertEquals(Arrays.equals(r0, m.convertToArray(m.row(0))), true);
@@ -98,9 +98,9 @@ public class UnitTest {
     @Test
     public void test_generate_Full() {
         Model m = new Model();
-        System.out.println(m.generateFull());
+        System.out.println(m.generate());
         for (int i = 0; i < 10; i++) {
-            Model temp = m.generateFull();
+            Model temp = m.generate();
             assertEquals(temp.complete(), true);
             assertEquals(temp.tile(16), temp.tile(7,1));
             assertEquals(temp.tile(30), temp.tile(3,3));
@@ -120,14 +120,53 @@ public class UnitTest {
         m4.sudoku_solver();
         assertEquals(true, m1.equals(m1_completed));
         assertEquals(true, m1.equals(m1_completed));
+        for (int i = 0; i < 81; i++) {
+            assertEquals(true, m1.tile(i).exist());
+            assertEquals(true, m4.tile(i).exist());
+        }
     }
 
 
     @Test
-    public void test_generate_Complete(){
-
+    public void test_multiple_solutions(){
+        Model m5_1 = get_exmp5_multiple();
+        Model m5_2 = get_exmp5_multiple();
+//        System.out.println(m5_1);
+//        System.out.println(m5_1.sudoku_solver());
+//        System.out.println(m5_2.sudoku_solver());
+        for (int i = 0; i < 10; i++) {
+            Model m = get_exmp5_multiple();
+            assertEquals(false, m.check_unique());
+        }
     }
 
+    @Test
+    public void test_generate_complete() {
+        Model m = new Model();
+        m.sudoku_solver();
+        Random ran = new Random();
+        List<Tile> assigned = m.tiles(true);
+        for (int t = 81; t > 27; t--) {
+            int i = ran.nextInt(assigned.size());
+            int col = assigned.get(i).col();
+            int row = assigned.get(i).row();
+            m.deleteTile(col, row);
+            assigned.remove(i);
+        }
+        System.out.println(m);
+        while (true) {
+            Object[] o = m.check_unique();
+            if (!(Boolean)o[0]) {
+                int index = (Integer)o[1];
+                m.addTile(Tile.create((Integer)o[2], index % 9, index / 9), false);
+                System.out.println("add");
+            } else {
+                break;
+            }
+        }
+        System.out.println(m);
+//        System.out.println(m.check_unique());
+    }
 
 
     /** Example1, completed. */
@@ -146,7 +185,7 @@ public class UnitTest {
         Model m = new Model();
         for (int r = 0; r < m.size(); r++) {
             for (int c = 0; c < m.size(); c++) {
-                m.addTile(Tile.create(ex[r][c], c, r));
+                m.addTile(Tile.create(ex[r][c], c, r), false);
             }
         }
         return m;
@@ -168,7 +207,7 @@ public class UnitTest {
         Model m = new Model();
         for (int r = 0; r < m.size(); r++) {
             for (int c = 0; c < m.size(); c++) {
-                m.addTile(Tile.create(ex[r][c], c, r));
+                m.addTile(Tile.create(ex[r][c], c, r), false);
             }
         }
         return m;
@@ -190,7 +229,7 @@ public class UnitTest {
         Model m = new Model();
         for (int r = 0; r < m.size(); r++) {
             for (int c = 0; c < m.size(); c++) {
-                m.addTile(Tile.create(ex[r][c], c, r));
+                m.addTile(Tile.create(ex[r][c], c, r), false);
             }
         }
         return m;
@@ -212,7 +251,7 @@ public class UnitTest {
         Model m = new Model();
         for (int r = 0; r < m.size(); r++) {
             for (int c = 0; c < m.size(); c++) {
-                m.addTile(Tile.create(ex[r][c], c, r));
+                m.addTile(Tile.create(ex[r][c], c, r), false);
             }
         }
         return m;
@@ -234,7 +273,7 @@ public class UnitTest {
         Model m = new Model();
         for (int r = 0; r < m.size(); r++) {
             for (int c = 0; c < m.size(); c++) {
-                m.addTile(Tile.create(ex[r][c], c, r));
+                m.addTile(Tile.create(ex[r][c], c, r), false);
             }
         }
         return m;
@@ -256,7 +295,29 @@ public class UnitTest {
         Model m = new Model();
         for (int r = 0; r < m.size(); r++) {
             for (int c = 0; c < m.size(); c++) {
-                m.addTile(Tile.create(ex[r][c], c, r));
+                m.addTile(Tile.create(ex[r][c], c, r), false);
+            }
+        }
+        return m;
+    }
+
+    /** Example5, multiple solutions. */
+    private Model get_exmp5_multiple() {
+        int[][] ex = {
+                {0,0,3,0,0,0,0,0,0},
+                {5,0,0,0,8,0,0,3,6},
+                {0,0,2,7,9,0,1,0,0},
+                {0,0,0,0,0,0,0,0,0},
+                {2,4,0,0,0,0,0,7,3},
+                {0,0,7,3,1,8,0,6,0},
+                {0,0,0,0,2,0,3,1,0},
+                {0,0,0,0,0,0,0,0,0},
+                {8,0,0,6,0,0,9,0,5},
+        };
+        Model m = new Model();
+        for (int r = 0; r < m.size(); r++) {
+            for (int c = 0; c < m.size(); c++) {
+                m.addTile(Tile.create(ex[r][c], c, r), false);
             }
         }
         return m;

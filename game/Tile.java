@@ -63,5 +63,5 @@ public class Tile {
     /** Position. */
     private final int _row, _col;
 
-    private boolean _exist = true;
+    private boolean _exist;
 }
