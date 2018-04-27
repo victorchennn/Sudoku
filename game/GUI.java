@@ -42,7 +42,7 @@ public class GUI extends TopLevel implements Observer {
             col = (col == 9 ? col - 1 : col);
             row = (row == 9 ? row - 1 : row);
             Tile t = _model.tile(col, row);
-            if (t.value() == 0) {
+            if (!t.exist()) {
                 _col = col;
                 _row = row;
             }

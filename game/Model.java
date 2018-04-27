@@ -43,7 +43,7 @@ public class Model extends Observable{
     /** Add TILE to the board. There must be no Tile currently at the
      *  same position. */
     void addTile(Tile tile, boolean playing) {
-        assert _board[tile.col()][tile.row()].value() == 0;
+//        assert _board[tile.col()][tile.row()].value() == 0;
         _board[tile.col()][tile.row()].changeValue(tile.value());
         if (!playing) {
             _board[tile.col()][tile.row()].changeExist(true);
@@ -68,7 +68,7 @@ public class Model extends Observable{
 
     /** Randomly delete some tiles with value and generate a completed sudoku
      * board with a unique solution. */
-    Model generateComplete() {
+    private Model generateComplete() {
         sudoku_solver();
         Random ran = new Random();
         List<Tile> assigned = tiles(true);
