@@ -101,7 +101,7 @@ public class GUI extends TopLevel implements Observer {
 
     private void setTime(LocalDateTime time) {
         DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        setLabel("Time", "Start Time: " + f.format(time));
+        setLabel("Time", "Time: " + f.format(time));
     }
 
     @Override
