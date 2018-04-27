@@ -3,8 +3,11 @@ package game;
 import ucb.gui2.LayoutSpec;
 import ucb.gui2.TopLevel;
 
+import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -18,8 +21,10 @@ public class GUI extends TopLevel implements Observer {
         _widget = new Widget(model.size());
 
         addMenuButton("Game->New", this::newGame);
-        addMenuButton("Game->Resume", this::ResumeGame);
+//        addMenuButton("Game->Resume", this::ResumeGame);
         addMenuButton("Game->Quit", this::quit);
+
+        addLabel("", "Time", new LayoutSpec("y", 1));
         
         add(_widget, new LayoutSpec("y", 0,
                 "height", "REMAINDER",
@@ -29,11 +34,11 @@ public class GUI extends TopLevel implements Observer {
         _widget.setKeyHandler("keypress", this::keyPressed);
         _widget.setMouseHandler("click", this::mouseClicked);
         setPreferredFocus(_widget);
-
+        setTime(_model.startime());
     }
 
     /** Respond to the mouse-clicking event. */
-    public void mouseClicked(String s, MouseEvent e) {
+    private void mouseClicked(String s, MouseEvent e) {
         _widget.no_value = false;
         int x = e.getX(), y = e.getY();
         if (x <= SIZE) {
@@ -43,13 +48,16 @@ public class GUI extends TopLevel implements Observer {
             row = (row == 9 ? row - 1 : row);
             Tile t = _model.tile(col, row);
             if (!t.exist()) {
-                _col = col;
-                _row = row;
+                if (SwingUtilities.isLeftMouseButton(e)) {
+                    _col = col;
+                    _row = row;
+                    _widget.no_value = true;
+                    _widget.repaint();
+                } else if (SwingUtilities.isRightMouseButton(e)) {
+                    _model.deleteTile(col, row);
+                    _widget.update(_model);
+                }
             }
-            if (!t.exist()) {
-                _widget.no_value = true;
-            }
-            _widget.repaint();
         }
         if (x >= SIZE + TILE) {
             int value = y / SEP + 1;
@@ -60,7 +68,7 @@ public class GUI extends TopLevel implements Observer {
     }
 
     /** Respond to the key press by queuing it to the queue. */
-    public void keyPressed(String s, KeyEvent e) {
+    private void keyPressed(String s, KeyEvent e) {
         _pendingKeys.offer(e.getKeyText(e.getKeyCode()));
     }
 
@@ -74,21 +82,26 @@ public class GUI extends TopLevel implements Observer {
     }
 
     /** Response to "New Game" button click. */
-    public void newGame(String s) {
+    private void newGame(String s) {
         _pendingKeys.offer("New");
         _widget.requestFocusInWindow();
     }
 
     /** Response to "New Game" button click. */
-    public void ResumeGame(String s) {
+    private void ResumeGame(String s) {
         _pendingKeys.offer("Resume");
         _widget.requestFocusInWindow();
     }
 
     /** Response to "Quit" button click. */
-    public void quit(String s) {
+    private void quit(String s) {
         _pendingKeys.offer("Quit");
         _widget.requestFocusInWindow();
+    }
+
+    private void setTime(LocalDateTime time) {
+        DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        setLabel("Time", "Start Time: " + f.format(time));
     }
 
     @Override

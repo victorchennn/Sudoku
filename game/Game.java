@@ -22,7 +22,6 @@ public class Game {
                     return;
                 case "New":
                     return;
-
             }
         }
     }

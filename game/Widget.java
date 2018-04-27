@@ -83,6 +83,7 @@ public class Widget extends Pad{
         }
     }
 
+    /** Update the model after each step. */
     synchronized void update(Model model) {
         _tiles = new ArrayList<>();
         for (int i = 0; i < _size * _size; i++) {

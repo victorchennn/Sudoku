@@ -1,6 +1,9 @@
 package game;
 
 import org.apache.commons.lang3.ArrayUtils;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Model extends Observable{
@@ -25,6 +28,7 @@ public class Model extends Observable{
                 _board[c][r] = t;
             }
         }
+        _startTime = LocalDateTime.now();
         setChanged();
     }
 
@@ -38,6 +42,10 @@ public class Model extends Observable{
             }
         }
         setChanged();
+    }
+
+    LocalDateTime startime() {
+        return _startTime;
     }
 
     /** Add TILE to the board. There must be no Tile currently at the
@@ -362,4 +370,6 @@ public class Model extends Observable{
 
     /** True iff game is ended. */
     private boolean _gameover;
+
+    private LocalDateTime _startTime;
 }
