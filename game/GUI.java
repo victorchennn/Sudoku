@@ -41,10 +41,12 @@ public class GUI extends TopLevel implements Observer {
             int row = _model.size() - y / SEP - 1;
             col = (col == 9 ? col - 1 : col);
             row = (row == 9 ? row - 1 : row);
-            int value = _model.tile(col, row).value();
-            if (value == 0) {
+            Tile t = _model.tile(col, row);
+            if (t.value() == 0) {
                 _col = col;
                 _row = row;
+            }
+            if (!t.exist()) {
                 _widget.no_value = true;
             }
             _widget.repaint();
@@ -52,8 +54,7 @@ public class GUI extends TopLevel implements Observer {
         if (x >= SIZE + TILE) {
             int value = y / SEP + 1;
             value = (value == 10 ? value - 1 : value);
-            _model.addTile(Tile.create(value, _col, _row));
-            _widget.no_value = true;
+            _model.addTile(Tile.create(value, _col, _row), true);
             _widget.update(_model);
         }
     }
